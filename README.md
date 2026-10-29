@@ -72,19 +72,6 @@ Document Export: Export single notes directly to formatted Markdown (.md) or sta
 
 Dark & Light Mode: Toggle between a pastel Baby Pink theme and a dark plum contrast theme.
 
-🚀 Getting Started
-
-No installation, build tools, or server setup required!
-
-Clone or download this repository:
-
-git clone https://github.com/your-username/kintas-studio.git
-
-
-Open index.html in any modern web browser (Chrome, Edge, Firefox, Safari).
-
-Start taking notes!
-
 🛠️ Built With
 
 HTML5 & CSS3
@@ -98,7 +85,3 @@ Prism.js — Syntax highlighting engine
 HTML5 Canvas API — Freehand whiteboard drawing & annotation engine
 
 Local Storage API — Client-side persistent data storage
-
-📄 License
-
-This project is open source and available under the MIT License.
