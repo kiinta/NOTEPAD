@@ -1,0 +1,2263 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kinta's Studio - Welcome to Notepad</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            pink: {
+              50: '#fdf2f8',
+              100: '#fce7f3',
+              200: '#fbcfe8',
+              300: '#f9a8d4',
+              400: '#f472b6',
+              500: '#ec4899',
+              600: '#db2777',
+              700: '#be185d',
+              800: '#9d174d',
+              900: '#831843',
+              950: '#500724',
+            },
+            pastel: {
+              yellow: '#fff7d3',
+              cream: '#fffdf5',
+              darkBg: '#181216',
+              darkCard: '#241b22',
+              darkBorder: '#3d2534'
+            }
+          },
+          boxShadow: {
+            'pink-glow': '0 0 20px -3px rgba(244, 114, 182, 0.45)',
+            'pink-glow-lg': '0 0 30px -4px rgba(236, 72, 153, 0.45)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+  <!-- Prism.js for Code Highlighting -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+    
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+    
+    pre, code, textarea.code-font {
+      font-family: 'JetBrains Mono', monospace !important;
+    }
+
+    /* Baby pink tinted scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(251, 207, 232, 0.2);
+    }
+    .dark ::-webkit-scrollbar-track {
+      background: rgba(24, 18, 22, 0.7);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(244, 114, 182, 0.5);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(236, 72, 153, 0.8);
+    }
+
+    .glass-pink {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .dark .glass-pink {
+      background: rgba(36, 27, 34, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .glow-border {
+      transition: all 0.25s ease;
+    }
+    .glow-border:focus-within {
+      border-color: #f472b6;
+      box-shadow: 0 0 16px -2px rgba(244, 114, 182, 0.4);
+    }
+  </style>
+</head>
+<body class="bg-[#fffdf8] text-slate-800 dark:bg-pastel-darkBg dark:text-pink-100 min-h-screen flex flex-col antialiased transition-colors duration-200">
+
+  <!-- TOP NAVIGATION BAR -->
+  <header class="h-16 border-b border-pink-200/80 dark:border-pastel-darkBorder glass-pink px-4 flex items-center justify-between z-20 sticky top-0 shadow-sm">
+    <div class="flex items-center gap-3">
+      <button id="toggleSidebarBtn" title="Toggle Sidebar" class="p-2 rounded-xl hover:bg-pink-100 dark:hover:bg-pastel-darkCard text-pink-600 dark:text-pink-300 transition">
+        <i class="ph ph-sidebar-simple text-xl"></i>
+      </button>
+      
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-pink-400 via-pink-300 to-pastel-yellow flex items-center justify-center text-pink-900 shadow-pink-glow">
+          <i class="ph-bold ph-note-pencil text-xl"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-extrabold tracking-tight text-lg bg-gradient-to-r from-pink-600 via-pink-500 to-pink-400 dark:from-pink-300 dark:via-pink-200 dark:to-pastel-yellow bg-clip-text text-transparent">
+            Kinta's Studio
+          </span>
+          <span class="text-[10px] tracking-widest text-pink-500 font-bold uppercase hidden sm:block">Welcome to Notepad</span>
+        </div>
+      </div>
+
+      <!-- Quick status indicator -->
+      <span id="saveStatus" class="ml-4 text-xs font-semibold px-2.5 py-1 rounded-full bg-pink-100/90 text-pink-700 dark:bg-pastel-darkCard dark:text-pink-300 border border-pink-200 dark:border-pink-800/60 flex items-center gap-1.5 transition-all">
+        <span class="w-2 h-2 rounded-full bg-pink-400 shadow-[0_0_8px_#f472b6]"></span>
+        Saved
+      </span>
+    </div>
+
+    <!-- Top Right Actions -->
+    <div class="flex items-center gap-2 sm:gap-3">
+      <!-- Search Input in Header for Notes -->
+      <div class="relative hidden md:block w-52 lg:w-72">
+        <i class="ph ph-magnifying-glass absolute left-3 top-2.5 text-pink-400"></i>
+        <input id="globalSearchInput" type="text" placeholder="Search notes & code..." 
+          class="w-full text-xs py-2 pl-9 pr-3 rounded-xl bg-pink-50/70 dark:bg-pastel-darkCard border border-pink-200/90 dark:border-pastel-darkBorder focus:border-pink-400 dark:focus:border-pink-400 focus:outline-none focus:ring-1 focus:ring-pink-400 transition text-slate-800 dark:text-pink-100 placeholder:text-pink-400/70">
+      </div>
+
+      <!-- Save manual button -->
+      <button id="manualSaveBtn" title="Force Save" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-gradient-to-r from-pink-400 via-pink-400 to-pink-500 hover:from-pink-500 hover:to-pink-600 text-white shadow-pink-glow transition">
+        <i class="ph-bold ph-floppy-disk text-sm"></i>
+        <span class="hidden sm:inline">Save</span>
+      </button>
+
+      <!-- Export / Import Dropdown Trigger -->
+      <div class="relative">
+        <button id="exportMenuBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium border border-pink-200 dark:border-pastel-darkBorder hover:bg-pink-100/70 dark:hover:bg-pastel-darkCard text-pink-800 dark:text-pink-200 transition">
+          <i class="ph ph-download-simple text-sm text-pink-500"></i>
+          <span class="hidden sm:inline">Export</span>
+          <i class="ph ph-caret-down text-xs"></i>
+        </button>
+        <!-- Menu -->
+        <div id="exportDropdown" class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-pastel-darkCard rounded-2xl shadow-xl border border-pink-200 dark:border-pastel-darkBorder py-1.5 z-50 text-xs backdrop-blur-md">
+          <button id="exportJsonBtn" class="w-full text-left px-4 py-2 hover:bg-pink-50 dark:hover:bg-pink-950/40 flex items-center gap-2 text-slate-700 dark:text-pink-200">
+            <i class="ph-bold ph-file-code text-pink-500 text-base"></i> Full Workspace (JSON)
+          </button>
+          <button id="exportMarkdownBtn" class="w-full text-left px-4 py-2 hover:bg-pink-50 dark:hover:bg-pink-950/40 flex items-center gap-2 text-slate-700 dark:text-pink-200">
+            <i class="ph-bold ph-markdown-logo text-pink-400 text-base"></i> Export Current (.MD)
+          </button>
+          <button id="exportHtmlBtn" class="w-full text-left px-4 py-2 hover:bg-pink-50 dark:hover:bg-pink-950/40 flex items-center gap-2 text-slate-700 dark:text-pink-200">
+            <i class="ph-bold ph-browser text-pink-500 text-base"></i> Export Current (.HTML)
+          </button>
+          <div class="border-t border-pink-100 dark:border-pastel-darkBorder my-1"></div>
+          <label class="w-full text-left px-4 py-2 hover:bg-pink-50 dark:hover:bg-pink-950/40 flex items-center gap-2 cursor-pointer text-slate-700 dark:text-pink-200">
+            <i class="ph-bold ph-upload-simple text-pink-600 text-base"></i> Restore Backup (JSON)
+            <input type="file" id="importJsonInput" accept=".json" class="hidden">
+          </label>
+        </div>
+      </div>
+
+      <!-- Theme Switcher -->
+      <button id="themeToggleBtn" title="Toggle theme" class="p-2 rounded-xl border border-pink-200 dark:border-pastel-darkBorder hover:bg-pink-100/70 dark:hover:bg-pastel-darkCard text-pink-600 dark:text-pink-300 transition">
+        <i class="ph-bold ph-sun text-lg dark:hidden"></i>
+        <i class="ph-bold ph-moon text-lg hidden dark:inline-block"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN APP CONTAINER -->
+  <div class="flex-1 flex overflow-hidden relative">
+
+    <!-- LEFT SIDEBAR: TOPICS & NOTES -->
+    <aside id="sidebar" class="w-72 sm:w-80 border-r border-pink-200/80 dark:border-pastel-darkBorder bg-white/80 dark:bg-pastel-darkCard/90 flex flex-col flex-shrink-0 transition-all duration-300 z-10 backdrop-blur-sm">
+      
+      <!-- Topics Header -->
+      <div class="p-4 border-b border-pink-200/60 dark:border-pastel-darkBorder">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-pink-600 dark:text-pink-400">Sections & Topics</span>
+          <button id="addTopicBtn" title="Create New Topic" class="p-1 rounded-lg bg-pink-100 text-pink-700 dark:bg-pink-950/60 dark:text-pink-300 hover:bg-pink-200 dark:hover:bg-pink-900 transition text-xs flex items-center gap-1 font-semibold px-2">
+            <i class="ph-bold ph-plus"></i> New Topic
+          </button>
+        </div>
+        <!-- Topic Selection Pill List -->
+        <div id="topicsList" class="flex gap-1.5 overflow-x-auto pb-1.5">
+          <!-- Dynamically populated topics -->
+        </div>
+      </div>
+
+      <!-- Active Topic Bar & Add Note Button -->
+      <div class="px-4 py-2.5 bg-pink-50/70 dark:bg-pastel-darkCard border-b border-pink-200/60 dark:border-pastel-darkBorder flex items-center justify-between">
+        <div class="flex items-center gap-1.5 min-w-0">
+          <i class="ph-bold ph-folder text-pink-500"></i>
+          <span id="currentTopicName" class="font-bold text-xs truncate text-pink-900 dark:text-pink-100">All Topics</span>
+        </div>
+        <div class="flex items-center gap-1">
+          <button id="editTopicNameBtn" title="Rename Topic" class="p-1 text-pink-600 hover:text-pink-900 dark:text-pink-400 dark:hover:text-white rounded-md hover:bg-pink-100 dark:hover:bg-pastel-darkBg transition">
+            <i class="ph ph-pencil-simple text-xs"></i>
+          </button>
+          <button id="deleteTopicBtn" title="Delete Topic" class="p-1 text-slate-400 hover:text-rose-500 rounded-md hover:bg-rose-50 dark:hover:bg-rose-950/40 transition">
+            <i class="ph ph-trash text-xs"></i>
+          </button>
+          <button id="addNoteBtn" class="ml-1 text-xs py-1 px-2.5 rounded-lg bg-pink-400 hover:bg-pink-500 text-white font-semibold flex items-center gap-1 shadow-sm transition">
+            <i class="ph-bold ph-plus text-xs"></i> Note
+          </button>
+        </div>
+      </div>
+
+      <!-- Notes List -->
+      <div id="notesListContainer" class="flex-1 overflow-y-auto p-2.5 space-y-1.5">
+        <!-- Dynamically injected note cards -->
+      </div>
+
+      <!-- Sidebar Footer Stats -->
+      <div class="p-3 border-t border-pink-200/60 dark:border-pastel-darkBorder text-[11px] text-pink-600 dark:text-pink-400 flex justify-between items-center bg-pink-50/40 dark:bg-pastel-darkBg">
+        <span id="notesCountLabel" class="font-medium">0 notes</span>
+        <span class="flex items-center gap-1"><i class="ph ph-clipboard-text text-pink-400"></i> Ctrl+V screenshot</span>
+      </div>
+    </aside>
+
+    <!-- RIGHT WORKSPACE / NOTE EDITOR -->
+    <main class="flex-1 flex flex-col overflow-y-auto bg-gradient-to-b from-[#fffaf4] via-pink-50/30 to-[#fff8f8] dark:from-pastel-darkBg dark:to-pastel-darkCard">
+      
+      <!-- Editor Canvas Toolbar -->
+      <div class="sticky top-0 z-10 glass-pink border-b border-pink-200/70 dark:border-pastel-darkBorder px-4 sm:px-8 py-3 flex flex-wrap items-center justify-between gap-3 shadow-xs">
+        
+        <!-- Add block action buttons -->
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="text-xs font-bold text-pink-600 dark:text-pink-400 uppercase tracking-wide mr-1">Add Element:</span>
+          
+          <button id="addTextBlockBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-pastel-darkCard hover:bg-pink-50 hover:text-pink-600 dark:hover:bg-pastel-darkBg border border-pink-200 dark:border-pastel-darkBorder text-slate-700 dark:text-pink-200 transition shadow-xs">
+            <i class="ph-bold ph-text-t text-sm text-pink-500"></i> Notes Block
+          </button>
+
+          <button id="addChecklistBlockBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-pastel-darkCard hover:bg-pink-50 hover:text-pink-600 dark:hover:bg-pastel-darkBg border border-pink-200 dark:border-pastel-darkBorder text-slate-700 dark:text-pink-200 transition shadow-xs">
+            <i class="ph-bold ph-check-square text-sm text-emerald-500"></i> Checklist
+          </button>
+
+          <button id="addCalloutBlockBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-pastel-darkCard hover:bg-pink-50 hover:text-pink-600 dark:hover:bg-pastel-darkBg border border-pink-200 dark:border-pastel-darkBorder text-slate-700 dark:text-pink-200 transition shadow-xs">
+            <i class="ph-bold ph-sparkle text-sm text-amber-500"></i> Callout / Tip
+          </button>
+
+          <button id="addCodeBlockBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-pastel-darkCard hover:bg-pink-50 hover:text-pink-600 dark:hover:bg-pastel-darkBg border border-pink-200 dark:border-pastel-darkBorder text-slate-700 dark:text-pink-200 transition shadow-xs">
+            <i class="ph-bold ph-code text-sm text-pink-500"></i> Code & Logic
+          </button>
+
+          <button id="addDrawBlockBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-pastel-darkCard hover:bg-pink-50 hover:text-pink-600 dark:hover:bg-pastel-darkBg border border-pink-200 dark:border-pastel-darkBorder text-slate-700 dark:text-pink-200 transition shadow-xs">
+            <i class="ph-bold ph-paint-brush-broad text-sm text-pink-400"></i> Draw & Annotate
+          </button>
+
+          <button id="addVideoBlockBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-pastel-darkCard hover:bg-pink-50 hover:text-pink-600 dark:hover:bg-pastel-darkBg border border-pink-200 dark:border-pastel-darkBorder text-slate-700 dark:text-pink-200 transition shadow-xs">
+            <i class="ph-bold ph-video text-sm text-pink-400"></i> Video
+          </button>
+
+          <label class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-pastel-darkCard hover:bg-pink-50 hover:text-pink-600 dark:hover:bg-pastel-darkBg border border-pink-200 dark:border-pastel-darkBorder text-slate-700 dark:text-pink-200 transition cursor-pointer shadow-xs">
+            <i class="ph-bold ph-file-text text-sm text-pink-500"></i> Document
+            <input type="file" id="docUploadInput" accept=".pdf,.txt,.md,.json,.csv,.doc,.docx" class="hidden">
+          </label>
+
+          <label class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-pastel-darkCard hover:bg-pink-50 hover:text-pink-600 dark:hover:bg-pastel-darkBg border border-pink-200 dark:border-pastel-darkBorder text-slate-700 dark:text-pink-200 transition cursor-pointer shadow-xs">
+            <i class="ph-bold ph-image text-sm text-pink-400"></i> Screenshot
+            <input type="file" id="imageUploadInput" accept="image/*" class="hidden">
+          </label>
+        </div>
+
+        <!-- Note Utilities: Delete Note button -->
+        <div class="flex items-center gap-2">
+          <button id="deleteNoteBtn" class="px-3 py-1.5 rounded-xl text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 transition text-xs font-semibold flex items-center gap-1.5" title="Permanently delete current note">
+            <i class="ph-bold ph-trash text-sm"></i>
+            <span>Delete Note</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Editor Content Page -->
+      <div class="max-w-4xl w-full mx-auto p-4 sm:p-8 space-y-6 flex-1 flex flex-col">
+        
+        <!-- Note Header Card -->
+        <div class="bg-white dark:bg-pastel-darkCard border border-pink-200 dark:border-pastel-darkBorder rounded-2xl p-6 shadow-sm glow-border relative overflow-hidden">
+          <div class="absolute -top-12 -right-12 w-36 h-36 bg-pink-200/30 dark:bg-pink-900/20 rounded-full blur-2xl pointer-events-none"></div>
+
+          <!-- Note Title -->
+          <input id="noteTitleInput" type="text" placeholder="Title of your note..." 
+            class="w-full text-2xl sm:text-3xl font-extrabold bg-transparent border-0 focus:outline-none placeholder:text-pink-200 dark:placeholder:text-pink-900/50 mb-3 tracking-tight text-slate-900 dark:text-pink-50">
+          
+          <!-- Metadata Bar -->
+          <div class="flex flex-wrap items-center gap-4 text-xs text-pink-600 dark:text-pink-300 pt-3 border-t border-pink-100 dark:border-pastel-darkBorder">
+            <div class="flex items-center gap-1">
+              <i class="ph ph-calendar-plus text-pink-400"></i>
+              <span id="noteCreatedLabel">Created: --</span>
+            </div>
+            <div class="flex items-center gap-1">
+              <i class="ph-bold ph-clock-clockwise text-pink-400"></i>
+              <span id="noteTimestampLabel">Last updated: just now</span>
+            </div>
+            <div class="flex items-center gap-1">
+              <i class="ph-bold ph-text-align-left text-pink-400"></i>
+              <span id="noteStatsLabel">0 words &bull; 0 min read</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <i class="ph ph-tag text-pink-500"></i>
+              <input id="noteTagsInput" type="text" placeholder="Tags (comma separated)..." 
+                class="bg-transparent border-b border-transparent hover:border-pink-300 dark:hover:border-pink-700 focus:border-pink-400 focus:outline-none text-slate-700 dark:text-pink-200 py-0.5 text-xs transition placeholder:text-pink-300 dark:placeholder:text-pink-800">
+            </div>
+            <div class="flex items-center gap-1 ml-auto text-pink-500/80">
+              <i class="ph-bold ph-clipboard text-pink-400"></i>
+              <span>Ctrl+V paste screenshot anywhere</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Block List (Canvas) -->
+        <div id="blocksContainer" class="space-y-6 pb-20">
+          <!-- Dynamic Blocks injected here -->
+        </div>
+
+        <!-- Empty state helper when no blocks -->
+        <div id="emptyBlocksHelper" class="hidden text-center py-16 border-2 border-dashed border-pink-200 dark:border-pastel-darkBorder rounded-2xl p-6 bg-pink-50/30 dark:bg-pastel-darkBg">
+          <div class="w-12 h-12 rounded-2xl bg-pink-100 dark:bg-pink-950/60 flex items-center justify-center mx-auto text-pink-500 mb-3 text-2xl">
+            <i class="ph-bold ph-notepad"></i>
+          </div>
+          <h3 class="font-bold text-slate-800 dark:text-pink-100">This note has no blocks yet</h3>
+          <p class="text-xs text-pink-600/80 dark:text-pink-400/80 max-w-sm mx-auto mt-1 mb-4">Add your thoughts, code snippets, interactive drawings, attached documents, or video links.</p>
+          <div class="flex flex-wrap justify-center gap-2">
+            <button onclick="document.getElementById('addTextBlockBtn').click()" class="px-3.5 py-2 text-xs rounded-xl bg-pink-400 hover:bg-pink-500 text-white font-semibold transition shadow-pink-glow">Add Text</button>
+            <button onclick="document.getElementById('addCodeBlockBtn').click()" class="px-3.5 py-2 text-xs rounded-xl bg-white dark:bg-pastel-darkCard text-pink-700 dark:text-pink-200 font-semibold border border-pink-200 dark:border-pastel-darkBorder hover:bg-pink-50 dark:hover:bg-pastel-darkBg transition">Add Code</button>
+            <button onclick="document.getElementById('addDrawBlockBtn').click()" class="px-3.5 py-2 text-xs rounded-xl bg-pink-50 dark:bg-pastel-darkBg text-pink-600 dark:text-pink-300 font-semibold border border-pink-200 dark:border-pastel-darkBorder transition">Add Drawing</button>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- VIDEO EMBED MODAL -->
+  <div id="videoModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-pastel-darkCard border border-pink-200 dark:border-pastel-darkBorder rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center gap-2 text-pink-600 dark:text-pink-300 font-bold">
+        <i class="ph-bold ph-video-camera text-xl"></i>
+        <span>Add Video Source</span>
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-slate-700 dark:text-pink-200 mb-1">YouTube URL or Direct MP4 / WebM Link</label>
+        <input type="text" id="videoUrlInput" placeholder="https://www.youtube.com/watch?v=... or direct .mp4" 
+          class="w-full text-xs p-2.5 rounded-xl bg-pink-50/50 dark:bg-pastel-darkBg border border-pink-200 dark:border-pastel-darkBorder focus:outline-none focus:border-pink-400 text-slate-800 dark:text-pink-100">
+      </div>
+      <div class="relative flex py-1 items-center">
+        <div class="flex-grow border-t border-pink-200 dark:border-pastel-darkBorder"></div>
+        <span class="flex-shrink mx-3 text-[11px] text-pink-400 uppercase font-semibold">Or upload local video</span>
+        <div class="flex-grow border-t border-pink-200 dark:border-pastel-darkBorder"></div>
+      </div>
+      <div>
+        <label class="w-full flex flex-col items-center justify-center p-4 border-2 border-dashed border-pink-300 dark:border-pastel-darkBorder rounded-xl cursor-pointer hover:bg-pink-50/50 dark:hover:bg-pastel-darkBg transition">
+          <i class="ph-bold ph-upload-simple text-2xl text-pink-400 mb-1"></i>
+          <span class="text-xs text-pink-700 dark:text-pink-300 font-medium">Choose video file (MP4, WebM)</span>
+          <input type="file" id="videoFileInput" accept="video/mp4,video/webm,video/ogg" class="hidden">
+        </label>
+      </div>
+      <div class="flex justify-end gap-2 pt-2">
+        <button id="cancelVideoModalBtn" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-pink-300 hover:bg-slate-100 dark:hover:bg-pastel-darkBg transition">
+          Cancel
+        </button>
+        <button id="confirmVideoBtn" class="px-4 py-2 rounded-xl text-xs font-semibold bg-pink-400 hover:bg-pink-500 text-white shadow-md transition">
+          Add Video
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DELETE CONFIRMATION MODAL -->
+  <div id="deleteModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-pastel-darkCard border border-pink-200 dark:border-pastel-darkBorder rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="w-12 h-12 rounded-2xl bg-rose-100 dark:bg-rose-950/60 text-rose-500 flex items-center justify-center text-2xl">
+        <i class="ph-bold ph-warning"></i>
+      </div>
+      <div>
+        <h3 id="deleteModalTitle" class="text-base font-bold text-slate-900 dark:text-white">Confirm Deletion</h3>
+        <p id="deleteModalDesc" class="text-xs text-slate-500 dark:text-pink-400/80 mt-1">Are you sure you want to delete this item? This action cannot be reversed.</p>
+      </div>
+      <div class="flex justify-end gap-2 pt-2">
+        <button id="cancelDeleteBtn" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-pink-300 hover:bg-slate-100 dark:hover:bg-pastel-darkBg transition">
+          Cancel
+        </button>
+        <button id="confirmDeleteBtn" class="px-4 py-2 rounded-xl text-xs font-semibold bg-rose-600 hover:bg-rose-500 text-white shadow-md transition">
+          Yes, Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOPIC INPUT MODAL -->
+  <div id="topicModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-pastel-darkCard border border-pink-200 dark:border-pastel-darkBorder rounded-2xl max-w-sm w-full p-5 shadow-2xl space-y-4">
+      <div class="flex items-center gap-2 text-pink-600 dark:text-pink-300 font-bold">
+        <i id="topicModalIcon" class="ph-bold ph-folder-plus text-xl"></i>
+        <span id="topicModalTitle">New Topic</span>
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-slate-700 dark:text-pink-200 mb-1.5">Topic / Section Name</label>
+        <input type="text" id="topicModalInput" placeholder="e.g., Data Structures, System Design..." 
+          class="w-full text-xs p-2.5 rounded-xl bg-pink-50/50 dark:bg-pastel-darkBg border border-pink-200 dark:border-pastel-darkBorder focus:outline-none focus:border-pink-400 text-slate-800 dark:text-pink-100 font-medium">
+      </div>
+      <div class="flex justify-end gap-2 pt-1">
+        <button id="cancelTopicModalBtn" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-pink-300 hover:bg-slate-100 dark:hover:bg-pastel-darkBg transition">
+          Cancel
+        </button>
+        <button id="confirmTopicModalBtn" class="px-4 py-1.5 rounded-xl text-xs font-semibold bg-pink-400 hover:bg-pink-500 text-white shadow-md transition">
+          Save Topic
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMAGE LIGHTBOX MODAL -->
+  <div id="lightboxModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="relative max-w-5xl w-full max-h-[90vh] flex flex-col items-center">
+      <button id="closeLightboxBtn" class="absolute -top-10 right-0 text-white hover:text-pink-300 text-2xl transition">
+        <i class="ph-bold ph-x"></i>
+      </button>
+      <img id="lightboxImage" src="" alt="Enlarged Screenshot" class="max-h-[85vh] max-w-full rounded-2xl object-contain shadow-pink-glow-lg border border-pink-300/40">
+      <p id="lightboxCaption" class="mt-3 text-pink-200 text-sm font-semibold text-center"></p>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="fixed bottom-6 right-6 transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300 z-50 bg-slate-900/95 text-white dark:bg-pastel-darkCard dark:text-pink-100 border border-pink-300/40 px-4 py-3 rounded-2xl shadow-pink-glow flex items-center gap-2.5 text-xs font-semibold backdrop-blur-md">
+    <i id="toastIcon" class="ph-bold ph-check-circle text-pink-400 text-lg"></i>
+    <span id="toastMsg">Notification message</span>
+  </div>
+
+  <!-- SCRIPT LOGIC -->
+  <script>
+    /* -------------------------------------------------------------
+       STATE MANAGEMENT & INITIAL MOCK DATA
+    -------------------------------------------------------------- */
+    const STORAGE_KEY = 'DEVNOTEBOOK_STUDIO_V1';
+
+    const defaultData = {
+      activeTopicId: 'topic-1',
+      activeNoteId: 'note-1',
+      topics: [
+        { id: 'topic-1', name: 'Python Programming' },
+        { id: 'topic-2', name: 'C / C++ & Logic' },
+        { id: 'topic-3', name: 'Web Dev & UI' },
+        { id: 'topic-4', name: 'Algorithms' }
+      ],
+      notes: [
+        {
+          id: 'note-1',
+          topicId: 'topic-1',
+          title: 'Python Decorators & Wrapper Logic',
+          tags: 'python, backend, advanced',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          blocks: [
+            {
+              id: 'b-1',
+              type: 'text',
+              content: 'Decorators are callable objects in Python used to extend and modify the behavior of functions or methods without directly editing their source code.'
+            },
+            {
+              id: 'b-2',
+              type: 'code',
+              language: 'python',
+              code: 'import time\n\ndef execution_timer(func):\n    """Measures total execution time of a target function."""\n    def wrapper(*args, **kwargs):\n        start = time.perf_counter()\n        res = func(*args, **kwargs)\n        elapsed = time.perf_counter() - start\n        print(f"Execution took {elapsed:.5f}s")\n        return res\n    return wrapper\n\n@execution_timer\ndef generate_cubes(limit):\n    return [x**3 for x in range(limit)]\n\ngenerate_cubes(50000)',
+              explanation: 'The @execution_timer wraps generate_cubes(). When called, wrapper calculates time before and after function execution and logs the benchmark.'
+            },
+            {
+              id: 'b-3',
+              type: 'image',
+              dataUrl: 'https://placehold.co/800x400/500724/fbcfe8?text=Decorator+Stack+Flowchart',
+              caption: 'Flow diagram showing how decorators intercept function calls and return altered output.'
+            }
+          ]
+        },
+        {
+          id: 'note-2',
+          topicId: 'topic-2',
+          title: 'Pointers & Dynamic Memory in C',
+          tags: 'c, pointers, memory',
+          createdAt: new Date(Date.now() - 7200000).toISOString(),
+          updatedAt: new Date(Date.now() - 3600000).toISOString(),
+          blocks: [
+            {
+              id: 'b-4',
+              type: 'text',
+              content: 'Always ensure malloc() allocations are paired with free() to avoid memory leaks.'
+            },
+            {
+              id: 'b-5',
+              type: 'code',
+              language: 'c',
+              code: `#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int *arr = (int*)malloc(5 * sizeof(int));
+    if (arr == NULL) return 1;
+    
+    for(int i = 0; i < 5; i++) arr[i] = (i + 1) * 10;
+    
+    for(int i = 0; i < 5; i++) printf("%d ", arr[i]);
+    
+    free(arr); // Deallocate heap memory
+    return 0;
+}`,
+              explanation: 'Allocates space for 5 integers on heap, writes values, prints them, and deallocates memory with free().'
+            }
+          ]
+        }
+      ]
+    };
+
+    let appState = loadState();
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed && parsed.topics && parsed.notes) {
+            parsed.notes.forEach(n => {
+              if (!n.createdAt) n.createdAt = n.updatedAt || new Date().toISOString();
+            });
+            return parsed;
+          }
+        }
+      } catch (e) {
+        console.error('Failed to parse state from localStorage', e);
+      }
+      return defaultData;
+    }
+
+    function saveState(notify = false) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+        showSavedIndicator();
+        if (notify) showToast('Saved successfully');
+      } catch (e) {
+        showToast('Storage quota reached. Export backup to free space.', 'ph-warning');
+      }
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function getActiveNote() {
+      return appState.notes.find(n => n.id === appState.activeNoteId) || null;
+    }
+
+    function copyToClipboard(text) {
+      if (!text) return;
+      const el = document.createElement('textarea');
+      el.value = text;
+      el.style.position = 'fixed';
+      el.style.left = '-9999px';
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+    }
+
+    /* -------------------------------------------------------------
+       DOM REFERENCES
+    -------------------------------------------------------------- */
+    const topicsListEl = document.getElementById('topicsList');
+    const notesListContainer = document.getElementById('notesListContainer');
+    const currentTopicNameEl = document.getElementById('currentTopicName');
+    const noteTitleInput = document.getElementById('noteTitleInput');
+    const noteTagsInput = document.getElementById('noteTagsInput');
+    const noteCreatedLabel = document.getElementById('noteCreatedLabel');
+    const noteTimestampLabel = document.getElementById('noteTimestampLabel');
+    const blocksContainer = document.getElementById('blocksContainer');
+    const emptyBlocksHelper = document.getElementById('emptyBlocksHelper');
+    const notesCountLabel = document.getElementById('notesCountLabel');
+    const globalSearchInput = document.getElementById('globalSearchInput');
+
+    const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
+    const sidebar = document.getElementById('sidebar');
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const manualSaveBtn = document.getElementById('manualSaveBtn');
+    const addTopicBtn = document.getElementById('addTopicBtn');
+    const editTopicNameBtn = document.getElementById('editTopicNameBtn');
+    const deleteTopicBtn = document.getElementById('deleteTopicBtn');
+    const addNoteBtn = document.getElementById('addNoteBtn');
+    const deleteNoteBtn = document.getElementById('deleteNoteBtn');
+
+    const addTextBlockBtn = document.getElementById('addTextBlockBtn');
+    const addChecklistBlockBtn = document.getElementById('addChecklistBlockBtn');
+    const addCalloutBlockBtn = document.getElementById('addCalloutBlockBtn');
+    const addCodeBlockBtn = document.getElementById('addCodeBlockBtn');
+    const addDrawBlockBtn = document.getElementById('addDrawBlockBtn');
+    const addVideoBlockBtn = document.getElementById('addVideoBlockBtn');
+    const noteStatsLabel = document.getElementById('noteStatsLabel');
+    const imageUploadInput = document.getElementById('imageUploadInput');
+    const docUploadInput = document.getElementById('docUploadInput');
+
+    const videoModal = document.getElementById('videoModal');
+    const videoUrlInput = document.getElementById('videoUrlInput');
+    const videoFileInput = document.getElementById('videoFileInput');
+    const cancelVideoModalBtn = document.getElementById('cancelVideoModalBtn');
+    const confirmVideoBtn = document.getElementById('confirmVideoBtn');
+
+    const exportMenuBtn = document.getElementById('exportMenuBtn');
+    const exportDropdown = document.getElementById('exportDropdown');
+    const exportJsonBtn = document.getElementById('exportJsonBtn');
+    const exportMarkdownBtn = document.getElementById('exportMarkdownBtn');
+    const exportHtmlBtn = document.getElementById('exportHtmlBtn');
+    const importJsonInput = document.getElementById('importJsonInput');
+
+    const lightboxModal = document.getElementById('lightboxModal');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    const closeLightboxBtn = document.getElementById('closeLightboxBtn');
+
+    const deleteModal = document.getElementById('deleteModal');
+    const deleteModalTitle = document.getElementById('deleteModalTitle');
+    const deleteModalDesc = document.getElementById('deleteModalDesc');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+    let pendingDeleteAction = null;
+
+    // In-app Topic Modal elements
+    const topicModal = document.getElementById('topicModal');
+    const topicModalTitle = document.getElementById('topicModalTitle');
+    const topicModalIcon = document.getElementById('topicModalIcon');
+    const topicModalInput = document.getElementById('topicModalInput');
+    const confirmTopicModalBtn = document.getElementById('confirmTopicModalBtn');
+    const cancelTopicModalBtn = document.getElementById('cancelTopicModalBtn');
+    let topicModalCallback = null;
+
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toastMsg');
+    const toastIcon = document.getElementById('toastIcon');
+    const saveStatus = document.getElementById('saveStatus');
+
+    /* -------------------------------------------------------------
+       THEME & INITIALIZATION
+    -------------------------------------------------------------- */
+    function initTheme() {
+      const isDark = localStorage.getItem('DEVNOTEBOOK_THEME') !== 'light';
+      document.documentElement.classList.toggle('dark', isDark);
+    }
+    initTheme();
+
+    themeToggleBtn.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('DEVNOTEBOOK_THEME', isDark ? 'dark' : 'light');
+    });
+
+    toggleSidebarBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('-ml-72');
+      sidebar.classList.toggle('sm:-ml-80');
+    });
+
+    /* -------------------------------------------------------------
+       CUSTOM CONFIRMATION MODAL HELPER
+    -------------------------------------------------------------- */
+    function showConfirmation(title, message, onConfirm) {
+      deleteModalTitle.textContent = title;
+      deleteModalDesc.textContent = message;
+      pendingDeleteAction = onConfirm;
+      deleteModal.classList.remove('hidden');
+    }
+
+    confirmDeleteBtn.addEventListener('click', () => {
+      if (pendingDeleteAction) {
+        pendingDeleteAction();
+        pendingDeleteAction = null;
+      }
+      deleteModal.classList.add('hidden');
+    });
+
+    cancelDeleteBtn.addEventListener('click', () => {
+      pendingDeleteAction = null;
+      deleteModal.classList.add('hidden');
+    });
+
+    /* -------------------------------------------------------------
+       CUSTOM IN-APP TOPIC MODAL HANDLERS
+    -------------------------------------------------------------- */
+    function openTopicModal(title, iconClass, initialValue, onSave) {
+      topicModalTitle.textContent = title;
+      topicModalIcon.className = `ph-bold ${iconClass} text-xl`;
+      topicModalInput.value = initialValue || '';
+      topicModalCallback = onSave;
+      topicModal.classList.remove('hidden');
+      setTimeout(() => {
+        topicModalInput.focus();
+        topicModalInput.select();
+      }, 50);
+    }
+
+    function closeTopicModal() {
+      topicModal.classList.add('hidden');
+      topicModalCallback = null;
+    }
+
+    confirmTopicModalBtn.addEventListener('click', () => {
+      const val = (topicModalInput.value || '').trim();
+      if (!val) {
+        showToast('Please enter a valid topic name', 'ph-warning');
+        return;
+      }
+      if (topicModalCallback) {
+        topicModalCallback(val);
+      }
+      closeTopicModal();
+    });
+
+    cancelTopicModalBtn.addEventListener('click', closeTopicModal);
+
+    topicModalInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        confirmTopicModalBtn.click();
+      } else if (e.key === 'Escape') {
+        closeTopicModal();
+      }
+    });
+
+    /* -------------------------------------------------------------
+       RENDERING: TOPICS & NOTES
+    -------------------------------------------------------------- */
+    function renderTopics() {
+      topicsListEl.innerHTML = '';
+      
+      appState.topics.forEach(topic => {
+        const isActive = topic.id === appState.activeTopicId;
+        const btn = document.createElement('button');
+        btn.className = `px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 ${
+          isActive 
+            ? 'bg-pink-400 text-white shadow-pink-glow' 
+            : 'bg-pink-100/70 dark:bg-pastel-darkCard text-pink-900 dark:text-pink-200 hover:bg-pink-200 dark:hover:bg-pastel-darkBorder border border-pink-200/60 dark:border-pastel-darkBorder'
+        }`;
+        btn.innerHTML = `<span class="w-1.5 h-1.5 rounded-full ${isActive ? 'bg-pastel-yellow' : 'bg-pink-400'}"></span>${escapeHtml(topic.name)}`;
+        btn.addEventListener('click', () => {
+          appState.activeTopicId = topic.id;
+          const firstInTopic = appState.notes.find(n => n.topicId === topic.id);
+          if (firstInTopic) {
+            appState.activeNoteId = firstInTopic.id;
+          }
+          saveState();
+          renderApp();
+        });
+        topicsListEl.appendChild(btn);
+      });
+
+      const currentTopic = appState.topics.find(t => t.id === appState.activeTopicId);
+      currentTopicNameEl.textContent = currentTopic ? currentTopic.name : 'All Topics';
+    }
+
+    function renderNotesList() {
+      const searchQuery = (globalSearchInput.value || '').trim().toLowerCase();
+      notesListContainer.innerHTML = '';
+
+      let filteredNotes = appState.notes.filter(n => n.topicId === appState.activeTopicId);
+
+      if (searchQuery) {
+        filteredNotes = appState.notes.filter(n => {
+          const inTitle = (n.title || '').toLowerCase().includes(searchQuery);
+          const inTags = (n.tags || '').toLowerCase().includes(searchQuery);
+          const inBlocks = (n.blocks || []).some(b => {
+            return (b.content || '').toLowerCase().includes(searchQuery) ||
+                   (b.code || '').toLowerCase().includes(searchQuery) ||
+                   (b.explanation || '').toLowerCase().includes(searchQuery) ||
+                   (b.caption || '').toLowerCase().includes(searchQuery);
+          });
+          return inTitle || inTags || inBlocks;
+        });
+      }
+
+      notesCountLabel.textContent = `${filteredNotes.length} note${filteredNotes.length === 1 ? '' : 's'}`;
+
+      if (filteredNotes.length === 0) {
+        notesListContainer.innerHTML = `
+          <div class="text-center py-8 text-pink-400/80 text-xs">
+            <i class="ph ph-note-blank text-2xl mb-1 text-pink-400"></i>
+            <p>No notes found in this section.</p>
+            <button onclick="document.getElementById('addNoteBtn').click()" class="mt-2 text-pink-500 font-bold hover:underline">Create a note</button>
+          </div>
+        `;
+        return;
+      }
+
+      filteredNotes.forEach(note => {
+        const isActive = note.id === appState.activeNoteId;
+        const item = document.createElement('div');
+        item.className = `p-3 rounded-2xl cursor-pointer transition border text-left group relative ${
+          isActive 
+            ? 'bg-pink-100/60 dark:bg-pink-950/40 border-pink-300 dark:border-pink-500/60 shadow-pink-glow' 
+            : 'bg-white/80 dark:bg-pastel-darkCard border-pink-100 dark:border-pastel-darkBorder hover:border-pink-300 dark:hover:border-pink-700'
+        }`;
+
+        let snippet = 'Empty note...';
+        const textBlock = (note.blocks || []).find(b => b.type === 'text' && b.content);
+        if (textBlock) {
+          snippet = textBlock.content.substring(0, 55) + (textBlock.content.length > 55 ? '...' : '');
+        } else if ((note.blocks || []).some(b => b.type === 'code')) {
+          snippet = 'Code snippets & documentation';
+        } else if ((note.blocks || []).some(b => b.type === 'image')) {
+          snippet = 'Screenshot with analysis';
+        }
+
+        const dateStr = note.updatedAt ? new Date(note.updatedAt).toLocaleDateString([], { month: 'short', day: 'numeric' }) : 'Recent';
+
+        item.innerHTML = `
+          <div class="flex items-start justify-between gap-1 mb-1">
+            <h4 class="font-bold text-xs truncate flex-1 ${isActive ? 'text-pink-600 dark:text-pink-300' : 'text-slate-800 dark:text-pink-100'}">
+              ${escapeHtml(note.title || 'Untitled Note')}
+            </h4>
+            <span class="text-[10px] text-pink-400 shrink-0 font-medium">${dateStr}</span>
+          </div>
+          <p class="text-[11px] text-slate-500 dark:text-pink-300/70 line-clamp-1 mb-2">${escapeHtml(snippet)}</p>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              ${(note.blocks || []).some(b => b.type === 'code') ? '<span class="text-[9px] px-1.5 py-0.5 rounded-md bg-pink-100 dark:bg-pink-950/80 text-pink-700 dark:text-pink-300 font-mono font-semibold">code</span>' : ''}
+              ${(note.blocks || []).some(b => b.type === 'image') ? '<span class="text-[9px] px-1.5 py-0.5 rounded-md bg-pastel-yellow dark:bg-pastel-darkBorder text-pink-800 dark:text-pink-200 font-semibold">img</span>' : ''}
+              ${note.tags ? `<span class="text-[10px] text-pink-400 truncate max-w-[90px]">#${escapeHtml(note.tags.split(',')[0].trim())}</span>` : ''}
+            </div>
+            <!-- Quick direct delete button on hover -->
+            <button class="delete-single-note-btn opacity-0 group-hover:opacity-100 p-1 hover:text-rose-500 text-slate-400 transition" title="Delete note">
+              <i class="ph ph-trash text-xs"></i>
+            </button>
+          </div>
+        `;
+
+        item.addEventListener('click', (e) => {
+          if (e.target.closest('.delete-single-note-btn')) {
+            e.stopPropagation();
+            promptDeleteNote(note.id, note.title);
+            return;
+          }
+          appState.activeNoteId = note.id;
+          saveState();
+          renderNoteEditor();
+          renderNotesList();
+        });
+
+        notesListContainer.appendChild(item);
+      });
+    }
+
+    function createBlockElement(block, index, totalBlocks) {
+      const card = document.createElement('div');
+      card.className = 'group relative bg-white dark:bg-pastel-darkCard border border-pink-200/80 dark:border-pastel-darkBorder rounded-2xl p-4 sm:p-5 shadow-sm transition hover:border-pink-300 dark:hover:border-pink-700 glow-border';
+      card.dataset.blockId = block.id;
+
+      // Header controls for block (type label, move up/down, DELETE BLOCK)
+      const controls = document.createElement('div');
+      controls.className = 'flex items-center justify-between pb-3 mb-3 border-b border-pink-100 dark:border-pastel-darkBorder text-xs text-pink-500';
+      
+      let typeLabel = 'Text & Notes';
+      let typeIcon = 'ph-text-t text-pink-500';
+      if (block.type === 'code') {
+        typeLabel = 'Code & Logic';
+        typeIcon = 'ph-code text-pink-400';
+      } else if (block.type === 'checklist') {
+        typeLabel = 'Actionable Checklist';
+        typeIcon = 'ph-check-square text-emerald-400';
+      } else if (block.type === 'callout') {
+        typeLabel = 'Callout Insight Card';
+        typeIcon = 'ph-sparkle text-amber-400';
+      } else if (block.type === 'image') {
+        typeLabel = 'Screenshot Analysis';
+        typeIcon = 'ph-image text-pink-400';
+      } else if (block.type === 'draw') {
+        typeLabel = 'Whiteboard, Highlighting & Screenshot Markup';
+        typeIcon = 'ph-paint-brush-broad text-pink-400';
+      } else if (block.type === 'video') {
+        typeLabel = 'Video Lecture & Breakdown';
+        typeIcon = 'ph-video text-pink-400';
+      } else if (block.type === 'document') {
+        typeLabel = 'Document Attachment & Summary';
+        typeIcon = 'ph-file-text text-pink-500';
+      }
+
+      controls.innerHTML = `
+        <div class="flex items-center gap-2 font-bold">
+          <i class="ph-bold ${typeIcon} text-sm"></i>
+          <span class="text-slate-800 dark:text-pink-200">${typeLabel}</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <button title="Move Up" class="p-1 text-slate-400 hover:text-pink-500 dark:hover:text-pink-300 rounded ${index === 0 ? 'opacity-30 cursor-not-allowed' : ''}" onclick="moveBlock('${block.id}', -1)">
+            <i class="ph-bold ph-arrow-up"></i>
+          </button>
+          <button title="Move Down" class="p-1 text-slate-400 hover:text-pink-500 dark:hover:text-pink-300 rounded ${index === totalBlocks - 1 ? 'opacity-30 cursor-not-allowed' : ''}" onclick="moveBlock('${block.id}', 1)">
+            <i class="ph-bold ph-arrow-down"></i>
+          </button>
+          <button title="Delete this block" class="p-1 hover:text-rose-500 text-slate-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded transition ml-1" onclick="deleteBlock('${block.id}')">
+            <i class="ph-bold ph-trash"></i>
+          </button>
+        </div>
+      `;
+      card.appendChild(controls);
+
+      // Block Type: TEXT
+      if (block.type === 'text') {
+        const textWrapper = document.createElement('div');
+        textWrapper.className = 'space-y-2';
+
+        // Markdown formatting quick toolbar
+        const formatBar = document.createElement('div');
+        formatBar.className = 'flex items-center gap-1 text-[11px] text-pink-700 dark:text-pink-300 pb-1 border-b border-pink-100 dark:border-pastel-darkBorder';
+        formatBar.innerHTML = `
+          <button type="button" class="px-2 py-0.5 rounded hover:bg-pink-100 dark:hover:bg-pastel-darkBg font-bold" title="Bold" onclick="wrapTextInBlock('${block.id}', '**', '**')">B</button>
+          <button type="button" class="px-2 py-0.5 rounded hover:bg-pink-100 dark:hover:bg-pastel-darkBg italic font-serif" title="Italic" onclick="wrapTextInBlock('${block.id}', '*', '*')">I</button>
+          <button type="button" class="px-2 py-0.5 rounded hover:bg-pink-100 dark:hover:bg-pastel-darkBg font-mono" title="Inline Code" onclick="wrapTextInBlock('${block.id}', '\`', '\`')">&lt;/&gt;</button>
+          <button type="button" class="px-2 py-0.5 rounded hover:bg-pink-100 dark:hover:bg-pastel-darkBg bg-pastel-yellow text-pink-900" title="Highlight text" onclick="wrapTextInBlock('${block.id}', '==', '==')">Highlight</button>
+          <button type="button" class="px-2 py-0.5 rounded hover:bg-pink-100 dark:hover:bg-pastel-darkBg" title="Bullet List" onclick="wrapTextInBlock('${block.id}', '• ', '')">&bull; Bullet</button>
+          <span class="ml-auto text-[10px] text-pink-400">Supports Markdown</span>
+        `;
+
+        const textarea = document.createElement('textarea');
+        textarea.id = `textarea-${block.id}`;
+        textarea.className = 'w-full bg-pink-50/40 dark:bg-pastel-darkBg/60 border border-pink-200 dark:border-pastel-darkBorder rounded-xl p-3.5 text-sm focus:outline-none focus:ring-1 focus:ring-pink-400 resize-y leading-relaxed text-slate-800 dark:text-pink-100 placeholder:text-pink-300 dark:placeholder:text-pink-800';
+        textarea.rows = Math.max(3, (block.content || '').split('\n').length + 1);
+        textarea.placeholder = 'Type your concepts, documentation notes, bullet points...';
+        textarea.value = block.content || '';
+        textarea.addEventListener('input', (e) => {
+          block.content = e.target.value;
+          markNoteEdited();
+        });
+
+        textWrapper.appendChild(formatBar);
+        textWrapper.appendChild(textarea);
+        card.appendChild(textWrapper);
+      }
+
+      // Block Type: CHECKLIST / TO-DO
+      else if (block.type === 'checklist') {
+        const checkWrapper = document.createElement('div');
+        checkWrapper.className = 'space-y-3';
+        block.items = block.items || [{ id: 'chk-1', text: 'Define note objectives', done: false }];
+
+        const listContainer = document.createElement('div');
+        listContainer.className = 'space-y-2';
+
+        const renderItems = () => {
+          listContainer.innerHTML = '';
+          block.items.forEach((item, itemIdx) => {
+            const itemRow = document.createElement('div');
+            itemRow.className = 'flex items-center gap-2 p-1.5 rounded-lg hover:bg-pink-50/60 dark:hover:bg-pastel-darkBg transition group/chk';
+            itemRow.innerHTML = `
+              <input type="checkbox" ${item.done ? 'checked' : ''} class="w-4 h-4 rounded text-pink-500 focus:ring-pink-400 cursor-pointer accent-pink-400">
+              <input type="text" value="${escapeHtml(item.text || '')}" placeholder="Task description..." class="flex-1 bg-transparent border-0 text-xs text-slate-800 dark:text-pink-100 focus:outline-none ${item.done ? 'line-through text-slate-400 dark:text-pink-500/50' : ''}">
+              <button class="opacity-0 group-hover/chk:opacity-100 p-1 text-slate-400 hover:text-rose-500 rounded transition" title="Remove Task">
+                <i class="ph-bold ph-x text-xs"></i>
+              </button>
+            `;
+            const chk = itemRow.querySelector('input[type="checkbox"]');
+            const txt = itemRow.querySelector('input[type="text"]');
+            const delBtn = itemRow.querySelector('button');
+
+            chk.addEventListener('change', (e) => {
+              item.done = e.target.checked;
+              markNoteEdited();
+              renderItems();
+            });
+            txt.addEventListener('input', (e) => {
+              item.text = e.target.value;
+              markNoteEdited();
+            });
+            delBtn.addEventListener('click', () => {
+              block.items.splice(itemIdx, 1);
+              markNoteEdited();
+              renderItems();
+            });
+            listContainer.appendChild(itemRow);
+          });
+        };
+        renderItems();
+
+        const addRowBtn = document.createElement('button');
+        addRowBtn.className = 'px-3 py-1 rounded-xl text-xs font-semibold bg-pink-100 dark:bg-pink-950/60 text-pink-700 dark:text-pink-300 hover:bg-pink-200 dark:hover:bg-pink-900 transition flex items-center gap-1';
+        addRowBtn.innerHTML = '<i class="ph-bold ph-plus"></i> Add Item';
+        addRowBtn.addEventListener('click', () => {
+          block.items.push({ id: 'chk-' + Date.now(), text: '', done: false });
+          markNoteEdited();
+          renderItems();
+        });
+
+        checkWrapper.appendChild(listContainer);
+        checkWrapper.appendChild(addRowBtn);
+        card.appendChild(checkWrapper);
+      }
+
+      // Block Type: CALLOUT / HIGHLIGHT CARD
+      else if (block.type === 'callout') {
+        const calloutWrapper = document.createElement('div');
+        const theme = block.variant || 'tip';
+        const styles = {
+          tip: { border: 'border-pink-400', bg: 'bg-pink-50/70 dark:bg-pink-950/30', text: 'text-pink-600 dark:text-pink-300', icon: 'ph-lightbulb', label: 'Pro Tip' },
+          warning: { border: 'border-amber-400', bg: 'bg-amber-50 dark:bg-amber-950/30', text: 'text-amber-600 dark:text-amber-300', icon: 'ph-warning', label: 'Important Notice' },
+          formula: { border: 'border-pastel-yellow', bg: 'bg-pastel-yellow/30 dark:bg-pastel-darkBorder', text: 'text-pink-700 dark:text-pastel-yellow', icon: 'ph-function', label: 'Key Formula / Rule' },
+        }[theme] || { border: 'border-pink-400', bg: 'bg-pink-50/70 dark:bg-pink-950/30', text: 'text-pink-600 dark:text-pink-300', icon: 'ph-lightbulb', label: 'Pro Tip' };
+
+        calloutWrapper.className = `p-4 rounded-xl border-l-4 ${styles.border} ${styles.bg} space-y-2`;
+        calloutWrapper.innerHTML = `
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2 font-bold text-xs ${styles.text}">
+              <i class="ph-bold ${styles.icon} text-base"></i>
+              <span>${styles.label}</span>
+            </div>
+            <select class="callout-type-select text-[11px] font-semibold bg-white dark:bg-pastel-darkCard border border-pink-200 dark:border-pastel-darkBorder rounded-lg px-2 py-0.5 text-slate-700 dark:text-pink-200 focus:outline-none">
+              <option value="tip" ${theme === 'tip' ? 'selected' : ''}>Tip</option>
+              <option value="warning" ${theme === 'warning' ? 'selected' : ''}>Warning</option>
+              <option value="formula" ${theme === 'formula' ? 'selected' : ''}>Formula / Rule</option>
+            </select>
+          </div>
+          <textarea class="w-full bg-transparent border-0 text-xs focus:outline-none resize-y text-slate-800 dark:text-pink-100 placeholder:text-pink-300/70 dark:placeholder:text-pink-800" rows="2" placeholder="Write key principle, rule, or takeaway...">${escapeHtml(block.content || '')}</textarea>
+        `;
+
+        const select = calloutWrapper.querySelector('.callout-type-select');
+        select.addEventListener('change', (e) => {
+          block.variant = e.target.value;
+          markNoteEdited();
+          renderNoteEditor();
+        });
+        const txt = calloutWrapper.querySelector('textarea');
+        txt.addEventListener('input', (e) => {
+          block.content = e.target.value;
+          markNoteEdited();
+        });
+
+        card.appendChild(calloutWrapper);
+      }
+
+      // Block Type: DRAW / WHITEBOARD SKETCH & HIGHLIGHTER
+      else if (block.type === 'draw') {
+        const drawWrapper = document.createElement('div');
+        drawWrapper.className = 'space-y-3';
+
+        // Baby pink palette + soft accents
+        const basicColors = [
+          { name: 'Baby Pink', hex: '#f472b6' },
+          { name: 'Deep Rose', hex: '#db2777' },
+          { name: 'Soft Yellow', hex: '#fff7d3' },
+          { name: 'Charcoal Plum', hex: '#371e30' },
+          { name: 'White', hex: '#ffffff' },
+          { name: 'Sky Pastel', hex: '#7dd3fc' },
+          { name: 'Mint Pastel', hex: '#86efac' }
+        ];
+
+        // Preset Highlighter Colors (with transparency)
+        const highlighterColors = [
+          { name: 'Baby Pink Glow', rgba: 'rgba(244, 114, 182, 0.45)', hex: '#f472b6' },
+          { name: 'Soft Yellow', rgba: 'rgba(255, 247, 211, 0.75)', hex: '#fff7d3' },
+          { name: 'Pastel Cyan', rgba: 'rgba(125, 211, 252, 0.45)', hex: '#7dd3fc' },
+          { name: 'Pastel Mint', rgba: 'rgba(134, 239, 172, 0.45)', hex: '#86efac' }
+        ];
+
+        const colorSwatchesHtml = basicColors.map(c => `
+          <button type="button" class="w-5 h-5 rounded-full border border-pink-300/40 dark:border-pink-700 transition hover:scale-110 swatch-btn" data-color="${c.hex}" title="${c.name}" style="background-color: ${c.hex}"></button>
+        `).join('');
+
+        const highlighterSwatchesHtml = highlighterColors.map(h => `
+          <button type="button" class="w-5 h-5 rounded-full border border-pink-200 dark:border-pink-800 transition hover:scale-110 highlighter-swatch-btn relative" data-rgba="${h.rgba}" title="Highlighter: ${h.name}" style="background-color: ${h.hex}">
+            <span class="absolute inset-0 flex items-center justify-center text-[9px] font-black text-slate-800">H</span>
+          </button>
+        `).join('');
+
+        const toolbar = document.createElement('div');
+        toolbar.className = 'flex flex-wrap items-center justify-between gap-2.5 p-2.5 rounded-xl bg-pink-50/70 dark:bg-pastel-darkBg border border-pink-200 dark:border-pastel-darkBorder text-xs';
+        toolbar.innerHTML = `
+          <!-- Tools: Pen, Highlighter, Eraser -->
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <button class="tool-pen px-2.5 py-1.5 rounded-lg bg-pink-400 text-white font-semibold flex items-center gap-1 shadow-sm">
+              <i class="ph-bold ph-pencil-simple text-sm"></i> Pen
+            </button>
+            <button class="tool-highlighter px-2.5 py-1.5 rounded-lg bg-white dark:bg-pastel-darkCard hover:bg-pink-100 dark:hover:bg-pastel-darkBg text-pink-600 dark:text-pink-300 font-semibold border border-pink-200 dark:border-pastel-darkBorder flex items-center gap-1">
+              <i class="ph-bold ph-highlighter text-sm"></i> Highlighter
+            </button>
+            <button class="tool-eraser px-2.5 py-1.5 rounded-lg bg-white dark:bg-pastel-darkCard hover:bg-pink-100 dark:hover:bg-pastel-darkBg text-slate-700 dark:text-pink-200 font-semibold border border-pink-200 dark:border-pastel-darkBorder flex items-center gap-1">
+              <i class="ph-bold ph-eraser text-sm"></i> Eraser
+            </button>
+            
+            <div class="h-4 w-[1px] bg-pink-200 dark:bg-pink-800 mx-1"></div>
+            
+            <!-- Quick basic color swatches -->
+            <div class="flex items-center gap-1 mr-1">
+              ${colorSwatchesHtml}
+            </div>
+
+            <!-- Highlighter swatches -->
+            <div class="flex items-center gap-1 bg-pink-200/40 dark:bg-pink-950/40 p-1 rounded-lg border border-pink-300/40">
+              <span class="text-[10px] font-bold text-pink-700 dark:text-pink-300 uppercase tracking-tighter mr-0.5">Hi-Lite:</span>
+              ${highlighterSwatchesHtml}
+            </div>
+
+            <label class="flex items-center gap-1 font-semibold text-pink-700 dark:text-pink-300 ml-1">
+              <input type="color" class="draw-color cursor-pointer w-6 h-6 rounded-md border-0 bg-transparent" value="${block.drawColor || '#f472b6'}" title="Custom Color Picker">
+            </label>
+            <label class="flex items-center gap-1 font-semibold text-pink-700 dark:text-pink-300 ml-1">
+              Size:
+              <input type="range" class="draw-size w-16 accent-pink-400 cursor-pointer" min="1" max="32" value="${block.brushSize || 3}">
+            </label>
+          </div>
+
+          <!-- Extra actions: Grid mode, screenshot overlay, download, clear -->
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <select class="grid-mode-select px-2 py-1 rounded-lg bg-white dark:bg-pastel-darkCard border border-pink-200 dark:border-pastel-darkBorder text-[11px] font-semibold text-pink-700 dark:text-pink-200 focus:outline-none">
+              <option value="none">Blank Canvas</option>
+              <option value="dots">Dot Grid</option>
+              <option value="lines">Lined Grid</option>
+            </select>
+
+            <label class="px-2 py-1 rounded-lg bg-pink-100 dark:bg-pastel-darkCard hover:bg-pink-200 text-pink-700 dark:text-pink-300 font-semibold flex items-center gap-1 cursor-pointer transition" title="Upload screenshot to annotate / draw on top">
+              <i class="ph-bold ph-image text-xs"></i> Annotate Screenshot
+              <input type="file" accept="image/*" class="annotate-file-input hidden">
+            </label>
+
+            <button class="tool-clear px-2 py-1 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/50 text-rose-500 font-semibold flex items-center gap-1 transition" title="Clear Canvas">
+              <i class="ph-bold ph-arrow-counter-clockwise"></i> Clear
+            </button>
+            <button class="tool-download px-2 py-1 rounded-lg bg-pink-400 hover:bg-pink-500 text-white font-semibold flex items-center gap-1 transition shadow-sm" title="Download Image">
+              <i class="ph-bold ph-download-simple"></i> PNG
+            </button>
+          </div>
+        `;
+
+        const canvasContainer = document.createElement('div');
+        canvasContainer.className = 'relative w-full h-96 rounded-xl overflow-hidden border border-pink-200 dark:border-pastel-darkBorder bg-white dark:bg-pastel-darkBg shadow-inner flex items-center justify-center';
+
+        const canvas = document.createElement('canvas');
+        canvas.className = 'touch-none cursor-crosshair w-full h-full';
+        canvasContainer.appendChild(canvas);
+
+        drawWrapper.appendChild(toolbar);
+        drawWrapper.appendChild(canvasContainer);
+
+        // Drawing explanation input
+        const notesBox = document.createElement('div');
+        notesBox.className = 'bg-pink-50/50 dark:bg-pastel-darkBg/50 p-3 rounded-xl border border-pink-200 dark:border-pastel-darkBorder';
+        notesBox.innerHTML = `
+          <label class="block text-xs font-bold text-pink-600 dark:text-pink-300 mb-1.5 flex items-center gap-1.5">
+            <i class="ph-bold ph-chats-circle text-pink-400"></i> Sketch Breakdown & Architecture Notes
+          </label>
+        `;
+        const explanationInput = document.createElement('textarea');
+        explanationInput.className = 'w-full bg-white dark:bg-pastel-darkCard border border-pink-200 dark:border-pastel-darkBorder rounded-lg p-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-pink-400 resize-y text-slate-800 dark:text-pink-100 placeholder:text-pink-300 dark:placeholder:text-pink-800';
+        explanationInput.rows = 2;
+        explanationInput.placeholder = 'Describe your sketch, diagrams, flowcharts, or system models...';
+        explanationInput.value = block.explanation || '';
+        explanationInput.addEventListener('input', (e) => {
+          block.explanation = e.target.value;
+          markNoteEdited();
+        });
+        notesBox.appendChild(explanationInput);
+        drawWrapper.appendChild(notesBox);
+
+        card.appendChild(drawWrapper);
+
+        // Canvas Drawing Logic
+        setTimeout(() => {
+          const ctx = canvas.getContext('2d');
+          const rect = canvasContainer.getBoundingClientRect();
+          canvas.width = rect.width;
+          canvas.height = rect.height;
+
+          let isDrawing = false;
+          let mode = 'pen'; // 'pen', 'highlighter', 'eraser'
+          let currentColor = block.drawColor || '#f472b6';
+          let currentSize = block.brushSize || 3;
+          let gridType = block.gridType || 'none';
+
+          const drawGridBackground = () => {
+            if (gridType === 'dots') {
+              ctx.save();
+              ctx.fillStyle = document.documentElement.classList.contains('dark') ? '#4a283e' : '#fbcfe8';
+              for (let x = 15; x < canvas.width; x += 24) {
+                for (let y = 15; y < canvas.height; y += 24) {
+                  ctx.fillRect(x, y, 1.5, 1.5);
+                }
+              }
+              ctx.restore();
+            } else if (gridType === 'lines') {
+              ctx.save();
+              ctx.strokeStyle = document.documentElement.classList.contains('dark') ? 'rgba(244, 114, 182, 0.12)' : 'rgba(244, 114, 182, 0.18)';
+              ctx.lineWidth = 1;
+              for (let y = 28; y < canvas.height; y += 28) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+              }
+              ctx.restore();
+            }
+          };
+
+          if (block.canvasData) {
+            const img = new Image();
+            img.onload = () => {
+              ctx.drawImage(img, 0, 0);
+            };
+            img.src = block.canvasData;
+          } else {
+            drawGridBackground();
+          }
+
+          const saveCanvasState = () => {
+            block.canvasData = canvas.toDataURL();
+            block.drawColor = currentColor;
+            block.brushSize = currentSize;
+            block.gridType = gridType;
+            markNoteEdited();
+          };
+
+          const getPos = (e) => {
+            const r = canvas.getBoundingClientRect();
+            if (e.touches && e.touches.length > 0) {
+              return { x: e.touches[0].clientX - r.left, y: e.touches[0].clientY - r.top };
+            }
+            return { x: e.clientX - r.left, y: e.clientY - r.top };
+          };
+
+          const startDraw = (e) => {
+            isDrawing = true;
+            const pos = getPos(e);
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+            if (e.cancelable) e.preventDefault();
+          };
+
+          const doDraw = (e) => {
+            if (!isDrawing) return;
+            const pos = getPos(e);
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            if (mode === 'eraser') {
+              ctx.globalCompositeOperation = 'destination-out';
+              ctx.strokeStyle = 'rgba(0,0,0,1)';
+              ctx.lineWidth = currentSize * 3;
+            } else if (mode === 'highlighter') {
+              ctx.globalCompositeOperation = 'source-over';
+              ctx.strokeStyle = currentColor;
+              ctx.lineWidth = Math.max(16, currentSize * 3);
+            } else {
+              ctx.globalCompositeOperation = 'source-over';
+              ctx.strokeStyle = currentColor;
+              ctx.lineWidth = currentSize;
+            }
+
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+            if (e.cancelable) e.preventDefault();
+          };
+
+          const endDraw = () => {
+            if (isDrawing) {
+              isDrawing = false;
+              ctx.globalCompositeOperation = 'source-over';
+              saveCanvasState();
+            }
+          };
+
+          canvas.addEventListener('mousedown', startDraw);
+          canvas.addEventListener('mousemove', doDraw);
+          canvas.addEventListener('mouseup', endDraw);
+          canvas.addEventListener('mouseleave', endDraw);
+
+          canvas.addEventListener('touchstart', startDraw, { passive: false });
+          canvas.addEventListener('touchmove', doDraw, { passive: false });
+          canvas.addEventListener('touchend', endDraw);
+
+          const penBtn = toolbar.querySelector('.tool-pen');
+          const highlighterBtn = toolbar.querySelector('.tool-highlighter');
+          const eraserBtn = toolbar.querySelector('.tool-eraser');
+          const colorInput = toolbar.querySelector('.draw-color');
+          const sizeInput = toolbar.querySelector('.draw-size');
+          const gridSelect = toolbar.querySelector('.grid-mode-select');
+          const annotateInput = toolbar.querySelector('.annotate-file-input');
+          const clearBtn = toolbar.querySelector('.tool-clear');
+          const downloadBtn = toolbar.querySelector('.tool-download');
+
+          const updateToolButtons = () => {
+            const activeClass = 'px-2.5 py-1.5 rounded-lg bg-pink-400 text-white font-semibold flex items-center gap-1 shadow-sm';
+            const inactiveClass = 'px-2.5 py-1.5 rounded-lg bg-white dark:bg-pastel-darkCard hover:bg-pink-100 dark:hover:bg-pastel-darkBg text-slate-700 dark:text-pink-200 font-semibold border border-pink-200 dark:border-pastel-darkBorder flex items-center gap-1';
+
+            penBtn.className = mode === 'pen' ? activeClass : inactiveClass;
+            highlighterBtn.className = mode === 'highlighter' ? 'px-2.5 py-1.5 rounded-lg bg-pink-500 text-white font-semibold flex items-center gap-1 shadow-sm' : inactiveClass;
+            eraserBtn.className = mode === 'eraser' ? activeClass : inactiveClass;
+          };
+
+          penBtn.addEventListener('click', () => {
+            mode = 'pen';
+            if (currentColor.startsWith('rgba')) currentColor = '#f472b6';
+            updateToolButtons();
+          });
+
+          highlighterBtn.addEventListener('click', () => {
+            mode = 'highlighter';
+            if (!currentColor.startsWith('rgba')) currentColor = 'rgba(244, 114, 182, 0.45)';
+            updateToolButtons();
+          });
+
+          eraserBtn.addEventListener('click', () => {
+            mode = 'eraser';
+            updateToolButtons();
+          });
+
+          toolbar.querySelectorAll('.swatch-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+              currentColor = btn.dataset.color;
+              colorInput.value = currentColor.startsWith('#') ? currentColor : '#f472b6';
+              mode = 'pen';
+              updateToolButtons();
+            });
+          });
+
+          toolbar.querySelectorAll('.highlighter-swatch-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+              currentColor = btn.dataset.rgba;
+              mode = 'highlighter';
+              updateToolButtons();
+            });
+          });
+
+          colorInput.addEventListener('input', (e) => {
+            currentColor = e.target.value;
+            if (mode === 'eraser') mode = 'pen';
+            updateToolButtons();
+          });
+
+          sizeInput.addEventListener('input', (e) => {
+            currentSize = parseInt(e.target.value, 10);
+          });
+
+          gridSelect.addEventListener('change', (e) => {
+            gridType = e.target.value;
+            drawGridBackground();
+            saveCanvasState();
+          });
+
+          annotateInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = (evt) => {
+                const img = new Image();
+                img.onload = () => {
+                  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                  saveCanvasState();
+                  showToast('Screenshot loaded into canvas. You can now highlight and draw directly over it!');
+                };
+                img.src = evt.target.result;
+              };
+              reader.readAsDataURL(file);
+            }
+          });
+
+          clearBtn.addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawGridBackground();
+            saveCanvasState();
+          });
+
+          downloadBtn.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = `annotation_${Date.now()}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+          });
+        }, 50);
+      }
+
+      // Block Type: VIDEO
+      else if (block.type === 'video') {
+        const videoWrapper = document.createElement('div');
+        videoWrapper.className = 'space-y-3';
+
+        const playerBox = document.createElement('div');
+        playerBox.className = 'relative w-full rounded-2xl overflow-hidden bg-black aspect-video border border-pink-200 dark:border-pastel-darkBorder shadow-md';
+
+        if (block.videoUrl && (block.videoUrl.includes('youtube.com') || block.videoUrl.includes('youtu.be'))) {
+          let videoId = '';
+          if (block.videoUrl.includes('youtu.be/')) {
+            videoId = block.videoUrl.split('youtu.be/')[1].split('?')[0];
+          } else if (block.videoUrl.includes('watch?v=')) {
+            videoId = block.videoUrl.split('watch?v=')[1].split('&')[0];
+          }
+          playerBox.innerHTML = `
+            <iframe class="w-full h-full" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          `;
+        } else {
+          playerBox.innerHTML = `
+            <video class="w-full h-full object-contain" controls>
+              <source src="${block.videoUrl || ''}">
+              Your browser does not support HTML video.
+            </video>
+          `;
+        }
+
+        const notesBox = document.createElement('div');
+        notesBox.className = 'bg-pink-50/50 dark:bg-pastel-darkBg/40 p-3 rounded-xl border border-pink-200 dark:border-pastel-darkBorder';
+        notesBox.innerHTML = `
+          <label class="block text-xs font-bold text-pink-600 dark:text-pink-300 mb-1.5 flex items-center gap-1.5">
+            <i class="ph-bold ph-video-camera text-pink-400"></i> Video Timestamp Notes & Lecture Summary
+          </label>
+        `;
+        const explanationInput = document.createElement('textarea');
+        explanationInput.className = 'w-full bg-white dark:bg-pastel-darkCard border border-pink-200 dark:border-pastel-darkBorder rounded-lg p-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-pink-400 resize-y text-slate-800 dark:text-pink-100 placeholder:text-pink-300 dark:placeholder:text-pink-800';
+        explanationInput.rows = 2;
+        explanationInput.placeholder = 'Add timestamp markers (e.g., [02:15] Architecture explanation) and lecture summary...';
+        explanationInput.value = block.explanation || '';
+        explanationInput.addEventListener('input', (e) => {
+          block.explanation = e.target.value;
+          markNoteEdited();
+        });
+        notesBox.appendChild(explanationInput);
+
+        videoWrapper.appendChild(playerBox);
+        videoWrapper.appendChild(notesBox);
+        card.appendChild(videoWrapper);
+      }
+
+      // Block Type: DOCUMENT ATTACHMENT
+      else if (block.type === 'document') {
+        const docWrapper = document.createElement('div');
+        docWrapper.className = 'space-y-3';
+
+        const fileCard = document.createElement('div');
+        fileCard.className = 'p-3.5 rounded-xl bg-pink-50/70 dark:bg-pastel-darkBg border border-pink-200 dark:border-pastel-darkBorder flex items-center justify-between gap-3';
+        fileCard.innerHTML = `
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="w-10 h-10 rounded-xl bg-pink-200/60 dark:bg-pink-900/40 text-pink-500 flex items-center justify-center text-xl shrink-0">
+              <i class="ph-bold ph-file-text"></i>
+            </div>
+            <div class="min-w-0">
+              <h5 class="text-xs font-bold truncate text-slate-900 dark:text-pink-100">${escapeHtml(block.fileName || 'Attached Document')}</h5>
+              <span class="text-[10px] text-pink-600 dark:text-pink-400 font-semibold">${block.fileSize || 'File'} &bull; ${block.fileExt || 'DOC'}</span>
+            </div>
+          </div>
+          <a href="${block.dataUrl || '#'}" download="${block.fileName || 'document'}" class="px-3 py-1.5 rounded-xl bg-pink-400 hover:bg-pink-500 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm transition shrink-0">
+            <i class="ph-bold ph-download-simple"></i> Download
+          </a>
+        `;
+        docWrapper.appendChild(fileCard);
+
+        if (block.fileExt === 'txt' || block.fileExt === 'md' || block.fileExt === 'json' || block.fileExt === 'csv') {
+          if (block.textContent) {
+            const previewBox = document.createElement('div');
+            previewBox.className = 'max-h-48 overflow-y-auto p-3 rounded-xl bg-slate-900 text-pink-200 text-xs font-mono border border-pink-950';
+            previewBox.textContent = block.textContent;
+            docWrapper.appendChild(previewBox);
+          }
+        }
+
+        const notesBox = document.createElement('div');
+        notesBox.className = 'bg-pink-50/50 dark:bg-pastel-darkBg/40 p-3 rounded-xl border border-pink-200 dark:border-pastel-darkBorder';
+        notesBox.innerHTML = `
+          <label class="block text-xs font-bold text-pink-600 dark:text-pink-300 mb-1.5 flex items-center gap-1.5">
+            <i class="ph-bold ph-article text-pink-400"></i> Document Analysis & Key Takeaways
+          </label>
+        `;
+        const explanationInput = document.createElement('textarea');
+        explanationInput.className = 'w-full bg-white dark:bg-pastel-darkCard border border-pink-200 dark:border-pastel-darkBorder rounded-lg p-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-pink-400 resize-y text-slate-800 dark:text-pink-100 placeholder:text-pink-300 dark:placeholder:text-pink-800';
+        explanationInput.rows = 2;
+        explanationInput.placeholder = 'Key insights, meeting action items, citations, or summary of this file...';
+        explanationInput.value = block.explanation || '';
+        explanationInput.addEventListener('input', (e) => {
+          block.explanation = e.target.value;
+          markNoteEdited();
+        });
+        notesBox.appendChild(explanationInput);
+        docWrapper.appendChild(notesBox);
+
+        card.appendChild(docWrapper);
+      }
+
+      // Block Type: CODE SNIPPET + EXPLANATION
+      else if (block.type === 'code') {
+        const langSelectContainer = document.createElement('div');
+        langSelectContainer.className = 'flex items-center justify-between mb-2.5';
+        
+        const languages = [
+          { val: 'python', name: 'Python' },
+          { val: 'c', name: 'C Language' },
+          { val: 'cpp', name: 'C++' },
+          { val: 'javascript', name: 'JavaScript' },
+          { val: 'java', name: 'Java' },
+          { val: 'markup', name: 'HTML / XML' },
+          { val: 'css', name: 'CSS' },
+          { val: 'sql', name: 'SQL' },
+          { val: 'bash', name: 'Bash / Shell' }
+        ];
+
+        const selectOptions = languages.map(l => `<option value="${l.val}" ${block.language === l.val ? 'selected' : ''}>${l.name}</option>`).join('');
+
+        langSelectContainer.innerHTML = `
+          <div class="flex items-center gap-2">
+            <label class="text-[11px] font-bold text-pink-500 uppercase tracking-wider">Language:</label>
+            <select class="code-lang-select text-xs py-1 px-2.5 rounded-lg bg-pink-100/70 dark:bg-pastel-darkBg border border-pink-200 dark:border-pastel-darkBorder font-semibold focus:outline-none focus:border-pink-400 text-slate-800 dark:text-pink-200">
+              ${selectOptions}
+            </select>
+          </div>
+          <button class="copy-code-btn px-2.5 py-1 text-xs rounded-lg bg-pink-100/80 dark:bg-pink-950/80 hover:bg-pink-200 dark:hover:bg-pink-900 text-pink-700 dark:text-pink-300 flex items-center gap-1.5 font-semibold transition border border-pink-300/40 dark:border-pink-800">
+            <i class="ph-bold ph-copy"></i> Copy Code
+          </button>
+        `;
+
+        const langSelect = langSelectContainer.querySelector('.code-lang-select');
+        langSelect.addEventListener('change', (e) => {
+          block.language = e.target.value;
+          markNoteEdited();
+          renderNoteEditor();
+        });
+
+        const copyBtn = langSelectContainer.querySelector('.copy-code-btn');
+        copyBtn.addEventListener('click', () => {
+          copyToClipboard(block.code || '');
+          showToast('Code copied to clipboard!');
+        });
+
+        card.appendChild(langSelectContainer);
+
+        // Code Editor Textarea (editable)
+        const codeTextarea = document.createElement('textarea');
+        codeTextarea.className = 'code-font w-full bg-slate-900 text-pink-300 p-3.5 rounded-xl text-xs leading-5 border border-pink-950 focus:outline-none focus:ring-1 focus:ring-pink-400 resize-y';
+        codeTextarea.rows = Math.max(4, (block.code || '').split('\n').length + 1);
+        codeTextarea.placeholder = '// Enter your code snippet here...';
+        codeTextarea.value = block.code || '';
+        codeTextarea.spellcheck = false;
+
+        codeTextarea.addEventListener('input', (e) => {
+          block.code = e.target.value;
+          markNoteEdited();
+        });
+
+        card.appendChild(codeTextarea);
+
+        // Explanation Box Below Code
+        const explanationContainer = document.createElement('div');
+        explanationContainer.className = 'mt-3 pt-3 border-t border-pink-100 dark:border-pastel-darkBorder';
+        explanationContainer.innerHTML = `
+          <label class="block text-xs font-bold text-pink-600 dark:text-pink-300 mb-1.5 flex items-center gap-1.5">
+            <i class="ph-bold ph-lightbulb text-amber-400"></i> Code Explanation & Logic Notes
+          </label>
+        `;
+
+        const explanationInput = document.createElement('textarea');
+        explanationInput.className = 'w-full bg-pink-50/50 dark:bg-pastel-darkBg/40 border border-pink-200 dark:border-pastel-darkBorder rounded-xl p-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-pink-400 resize-y text-slate-800 dark:text-pink-100 placeholder:text-pink-300 dark:placeholder:text-pink-800';
+        explanationInput.rows = 2;
+        explanationInput.placeholder = 'Explain step-by-step how this code runs, its edge cases, or variables...';
+        explanationInput.value = block.explanation || '';
+        explanationInput.addEventListener('input', (e) => {
+          block.explanation = e.target.value;
+          markNoteEdited();
+        });
+
+        explanationContainer.appendChild(explanationInput);
+        card.appendChild(explanationContainer);
+      }
+
+      // Block Type: IMAGE / SCREENSHOT + CAPTION NOTES
+      else if (block.type === 'image') {
+        const imgWrapper = document.createElement('div');
+        imgWrapper.className = 'space-y-3';
+
+        const previewContainer = document.createElement('div');
+        previewContainer.className = 'relative group/img overflow-hidden rounded-xl border border-pink-200 dark:border-pastel-darkBorder bg-slate-900 flex items-center justify-center';
+
+        const img = document.createElement('img');
+        img.src = block.dataUrl || 'https://placehold.co/600x300/500724/fbcfe8?text=Screenshot';
+        img.alt = block.caption || 'Screenshot';
+        img.className = 'max-h-96 w-auto object-contain cursor-pointer transition duration-200 hover:scale-[1.01]';
+        img.addEventListener('click', () => openLightbox(block.dataUrl, block.caption));
+
+        const zoomBtn = document.createElement('button');
+        zoomBtn.className = 'absolute bottom-3 right-3 bg-pink-950/80 hover:bg-pink-900 text-pink-200 border border-pink-400/40 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 backdrop-blur transition opacity-0 group-hover/img:opacity-100 shadow-md';
+        zoomBtn.innerHTML = '<i class="ph-bold ph-arrows-out"></i> Expand';
+        zoomBtn.addEventListener('click', () => openLightbox(block.dataUrl, block.caption));
+
+        previewContainer.appendChild(img);
+        previewContainer.appendChild(zoomBtn);
+        imgWrapper.appendChild(previewContainer);
+
+        // Screenshot Detailed Explanation
+        const captionBox = document.createElement('div');
+        captionBox.className = 'bg-pink-50/50 dark:bg-pastel-darkBg/40 p-3 rounded-xl border border-pink-200 dark:border-pastel-darkBorder';
+        captionBox.innerHTML = `
+          <label class="block text-xs font-bold text-pink-600 dark:text-pink-300 mb-1.5 flex items-center gap-1.5">
+            <i class="ph-bold ph-chat-text text-pink-400"></i> Screenshot Notes & Breakdown
+          </label>
+        `;
+
+        const captionInput = document.createElement('textarea');
+        captionInput.className = 'w-full bg-white dark:bg-pastel-darkCard border border-pink-200 dark:border-pastel-darkBorder rounded-lg p-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-pink-400 resize-y text-slate-800 dark:text-pink-100 placeholder:text-pink-300 dark:placeholder:text-pink-800';
+        captionInput.rows = 2;
+        captionInput.placeholder = 'Write notes describing this screenshot (e.g. terminal errors, UI preview, architecture diagram)...';
+        captionInput.value = block.caption || '';
+        captionInput.addEventListener('input', (e) => {
+          block.caption = e.target.value;
+          markNoteEdited();
+        });
+
+        captionBox.appendChild(captionInput);
+        imgWrapper.appendChild(captionBox);
+
+        card.appendChild(imgWrapper);
+      }
+
+      return card;
+    }
+
+    /* -------------------------------------------------------------
+       NOTE EDITOR RENDERING & BLOCK ACTIONS
+    -------------------------------------------------------------- */
+    function renderNoteEditor() {
+      const note = getActiveNote();
+
+      if (!note) {
+        emptyBlocksHelper.classList.remove('hidden');
+        blocksContainer.innerHTML = '';
+        noteTitleInput.value = '';
+        noteTagsInput.value = '';
+        noteCreatedLabel.textContent = 'Created: --';
+        noteTimestampLabel.textContent = 'Last updated: --';
+        noteStatsLabel.textContent = '0 words • 0 min read';
+        return;
+      }
+
+      noteTitleInput.value = note.title || '';
+      noteTagsInput.value = note.tags || '';
+
+      const createdDate = note.createdAt ? new Date(note.createdAt) : new Date();
+      noteCreatedLabel.textContent = `Created: ${createdDate.toLocaleDateString([], { month: 'short', day: 'numeric' })}`;
+
+      const updatedDate = note.updatedAt ? new Date(note.updatedAt) : new Date();
+      noteTimestampLabel.textContent = `Updated: ${updatedDate.toLocaleDateString([], { month: 'short', day: 'numeric' })} at ${updatedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+
+      updateNoteStatistics(note);
+
+      blocksContainer.innerHTML = '';
+      if (!note.blocks || note.blocks.length === 0) {
+        emptyBlocksHelper.classList.remove('hidden');
+      } else {
+        emptyBlocksHelper.classList.add('hidden');
+        note.blocks.forEach((block, index) => {
+          const el = createBlockElement(block, index, note.blocks.length);
+          blocksContainer.appendChild(el);
+        });
+      }
+    }
+
+    function updateNoteStatistics(note) {
+      if (!note || !note.blocks) {
+        noteStatsLabel.textContent = '0 words • 0 min read';
+        return;
+      }
+      let totalWords = 0;
+      note.blocks.forEach(b => {
+        const text = (b.content || '') + ' ' + (b.code || '') + ' ' + (b.explanation || '') + ' ' + (b.caption || '');
+        const words = text.trim().split(/\s+/).filter(w => w.length > 0);
+        totalWords += words.length;
+      });
+      const readTime = Math.max(1, Math.ceil(totalWords / 180));
+      noteStatsLabel.textContent = `${totalWords} word${totalWords === 1 ? '' : 's'} • ${readTime} min read`;
+    }
+
+    function wrapTextInBlock(blockId, startTag, endTag) {
+      const note = getActiveNote();
+      if (!note) return;
+      const block = note.blocks.find(b => b.id === blockId);
+      if (!block) return;
+
+      const textarea = document.getElementById(`textarea-${blockId}`);
+      if (!textarea) return;
+
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const originalText = textarea.value;
+      const selected = originalText.substring(start, end);
+
+      const replacement = startTag + (selected || 'sample') + endTag;
+      textarea.value = originalText.substring(0, start) + replacement + originalText.substring(end);
+      block.content = textarea.value;
+      markNoteEdited();
+      textarea.focus();
+      textarea.setSelectionRange(start + startTag.length, start + startTag.length + (selected ? selected.length : 6));
+    }
+
+    function moveBlock(blockId, delta) {
+      const note = getActiveNote();
+      if (!note || !note.blocks) return;
+      const idx = note.blocks.findIndex(b => b.id === blockId);
+      if (idx === -1) return;
+      const newIdx = idx + delta;
+      if (newIdx < 0 || newIdx >= note.blocks.length) return;
+
+      const [removed] = note.blocks.splice(idx, 1);
+      note.blocks.splice(newIdx, 0, removed);
+      markNoteEdited();
+      renderNoteEditor();
+    }
+
+    function deleteBlock(blockId) {
+      showConfirmation('Delete Block', 'Are you sure you want to remove this block from the note?', () => {
+        const note = getActiveNote();
+        if (!note || !note.blocks) return;
+        note.blocks = note.blocks.filter(b => b.id !== blockId);
+        markNoteEdited();
+        renderNoteEditor();
+        showToast('Block removed');
+      });
+    }
+
+    function promptDeleteNote(noteId, title) {
+      showConfirmation('Delete Note', `Are you sure you want to delete "${title || 'Untitled Note'}"? This action cannot be reversed.`, () => {
+        appState.notes = appState.notes.filter(n => n.id !== noteId);
+        if (appState.activeNoteId === noteId) {
+          const firstInTopic = appState.notes.find(n => n.topicId === appState.activeTopicId) || appState.notes[0];
+          appState.activeNoteId = firstInTopic ? firstInTopic.id : null;
+        }
+        saveState();
+        renderApp();
+        showToast('Note deleted');
+      });
+    }
+
+    function openLightbox(imageUrl, caption) {
+      lightboxImage.src = imageUrl || '';
+      lightboxCaption.textContent = caption || '';
+      lightboxModal.classList.remove('hidden');
+    }
+
+    closeLightboxBtn.addEventListener('click', () => {
+      lightboxModal.classList.add('hidden');
+    });
+
+    lightboxModal.addEventListener('click', (e) => {
+      if (e.target === lightboxModal) {
+        lightboxModal.classList.add('hidden');
+      }
+    });
+
+    /* -------------------------------------------------------------
+       INPUT LISTENERS & TOOLBAR ACTIONS
+    -------------------------------------------------------------- */
+    noteTitleInput.addEventListener('input', (e) => {
+      const note = getActiveNote();
+      if (!note) return;
+      note.title = e.target.value;
+      markNoteEdited();
+      renderNotesList();
+    });
+
+    noteTagsInput.addEventListener('input', (e) => {
+      const note = getActiveNote();
+      if (!note) return;
+      note.tags = e.target.value;
+      markNoteEdited();
+      renderNotesList();
+    });
+
+    globalSearchInput.addEventListener('input', () => {
+      renderNotesList();
+    });
+
+    manualSaveBtn.addEventListener('click', () => {
+      saveState(true);
+    });
+
+    // Add Elements
+    addTextBlockBtn.addEventListener('click', () => {
+      const note = getActiveNote();
+      if (!note) return;
+      note.blocks = note.blocks || [];
+      note.blocks.push({
+        id: 'b-' + Date.now(),
+        type: 'text',
+        content: ''
+      });
+      markNoteEdited();
+      renderNoteEditor();
+    });
+
+    addChecklistBlockBtn.addEventListener('click', () => {
+      const note = getActiveNote();
+      if (!note) return;
+      note.blocks = note.blocks || [];
+      note.blocks.push({
+        id: 'b-' + Date.now(),
+        type: 'checklist',
+        items: [{ id: 'chk-1', text: 'New item to complete', done: false }]
+      });
+      markNoteEdited();
+      renderNoteEditor();
+    });
+
+    addCalloutBlockBtn.addEventListener('click', () => {
+      const note = getActiveNote();
+      if (!note) return;
+      note.blocks = note.blocks || [];
+      note.blocks.push({
+        id: 'b-' + Date.now(),
+        type: 'callout',
+        variant: 'tip',
+        content: ''
+      });
+      markNoteEdited();
+      renderNoteEditor();
+    });
+
+    addCodeBlockBtn.addEventListener('click', () => {
+      const note = getActiveNote();
+      if (!note) return;
+      note.blocks = note.blocks || [];
+      note.blocks.push({
+        id: 'b-' + Date.now(),
+        type: 'code',
+        language: 'javascript',
+        code: '',
+        explanation: ''
+      });
+      markNoteEdited();
+      renderNoteEditor();
+    });
+
+    addDrawBlockBtn.addEventListener('click', () => {
+      const note = getActiveNote();
+      if (!note) return;
+      note.blocks = note.blocks || [];
+      note.blocks.push({
+        id: 'b-' + Date.now(),
+        type: 'draw',
+        drawColor: '#f472b6',
+        brushSize: 3,
+        explanation: '',
+        gridType: 'none'
+      });
+      markNoteEdited();
+      renderNoteEditor();
+    });
+
+    // Video block modal flow
+    addVideoBlockBtn.addEventListener('click', () => {
+      videoUrlInput.value = '';
+      videoFileInput.value = '';
+      videoModal.classList.remove('hidden');
+    });
+
+    cancelVideoModalBtn.addEventListener('click', () => {
+      videoModal.classList.add('hidden');
+    });
+
+    confirmVideoBtn.addEventListener('click', () => {
+      const url = videoUrlInput.value.trim();
+      const note = getActiveNote();
+      if (!note) return;
+
+      if (url) {
+        note.blocks = note.blocks || [];
+        note.blocks.push({
+          id: 'b-' + Date.now(),
+          type: 'video',
+          videoUrl: url,
+          explanation: ''
+        });
+        videoModal.classList.add('hidden');
+        markNoteEdited();
+        renderNoteEditor();
+      } else if (videoFileInput.files && videoFileInput.files[0]) {
+        const file = videoFileInput.files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          note.blocks = note.blocks || [];
+          note.blocks.push({
+            id: 'b-' + Date.now(),
+            type: 'video',
+            videoUrl: e.target.result,
+            explanation: `Uploaded local video: ${file.name}`
+          });
+          videoModal.classList.add('hidden');
+          markNoteEdited();
+          renderNoteEditor();
+        };
+        reader.readAsDataURL(file);
+      } else {
+        showToast('Please enter a video URL or select a video file', 'ph-warning');
+      }
+    });
+
+    // Document file upload
+    docUploadInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const note = getActiveNote();
+      if (!note) return;
+
+      const ext = file.name.split('.').pop().toLowerCase();
+      const sizeStr = (file.size / 1024).toFixed(1) + ' KB';
+
+      const reader = new FileReader();
+      if (['txt', 'md', 'json', 'csv'].includes(ext)) {
+        reader.onload = (evt) => {
+          note.blocks = note.blocks || [];
+          note.blocks.push({
+            id: 'b-' + Date.now(),
+            type: 'document',
+            fileName: file.name,
+            fileSize: sizeStr,
+            fileExt: ext,
+            dataUrl: evt.target.result,
+            textContent: evt.target.result.substring(0, 1500),
+            explanation: ''
+          });
+          markNoteEdited();
+          renderNoteEditor();
+          docUploadInput.value = '';
+        };
+        reader.readAsText(file);
+      } else {
+        reader.onload = (evt) => {
+          note.blocks = note.blocks || [];
+          note.blocks.push({
+            id: 'b-' + Date.now(),
+            type: 'document',
+            fileName: file.name,
+            fileSize: sizeStr,
+            fileExt: ext,
+            dataUrl: evt.target.result,
+            explanation: ''
+          });
+          markNoteEdited();
+          renderNoteEditor();
+          docUploadInput.value = '';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Screenshot file upload
+    imageUploadInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        addScreenshotBlock(evt.target.result, file.name);
+        imageUploadInput.value = '';
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Global Paste (Ctrl+V) handler for instant screenshots
+    window.addEventListener('paste', (e) => {
+      const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+      for (const item of items) {
+        if (item.type.indexOf('image') !== -1) {
+          const blob = item.getAsFile();
+          const reader = new FileReader();
+          reader.onload = (evt) => {
+            addScreenshotBlock(evt.target.result, 'Pasted Screenshot');
+            showToast('Screenshot attached from clipboard!');
+          };
+          reader.readAsDataURL(blob);
+          break;
+        }
+      }
+    });
+
+    function addScreenshotBlock(dataUrl, captionHint = '') {
+      const note = getActiveNote();
+      if (!note) return;
+      note.blocks = note.blocks || [];
+      note.blocks.push({
+        id: 'b-' + Date.now(),
+        type: 'image',
+        dataUrl: dataUrl,
+        caption: captionHint ? `Captured: ${captionHint}` : ''
+      });
+      markNoteEdited();
+      renderNoteEditor();
+    }
+
+    // Topics controls
+    addTopicBtn.addEventListener('click', () => {
+      openTopicModal('New Topic / Section', 'ph-folder-plus', '', (name) => {
+        const newTopicId = 'topic-' + Date.now();
+        appState.topics.push({ id: newTopicId, name });
+        appState.activeTopicId = newTopicId;
+
+        const newNoteId = 'note-' + Date.now();
+        appState.notes.push({
+          id: newNoteId,
+          topicId: newTopicId,
+          title: `Welcome to ${name}`,
+          tags: name.toLowerCase().replace(/\s+/g, '-'),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          blocks: [
+            {
+              id: 'b-' + Date.now(),
+              type: 'text',
+              content: `Start writing your notes, adding code, or pasting screenshots for ${name}.`
+            }
+          ]
+        });
+        appState.activeNoteId = newNoteId;
+        saveState();
+        renderApp();
+        showToast(`Topic "${name}" created`);
+      });
+    });
+
+    editTopicNameBtn.addEventListener('click', () => {
+      const current = appState.topics.find(t => t.id === appState.activeTopicId);
+      if (!current) return;
+      openTopicModal('Rename Topic', 'ph-pencil-simple', current.name, (newName) => {
+        current.name = newName;
+        saveState();
+        renderTopics();
+        showToast('Topic renamed');
+      });
+    });
+
+    deleteTopicBtn.addEventListener('click', () => {
+      const current = appState.topics.find(t => t.id === appState.activeTopicId);
+      if (!current) return;
+      if (appState.topics.length <= 1) {
+        showToast('Cannot delete the only topic remaining', 'ph-warning');
+        return;
+      }
+      showConfirmation('Delete Topic', `Delete topic "${current.name}" and all notes inside it?`, () => {
+        appState.topics = appState.topics.filter(t => t.id !== current.id);
+        appState.notes = appState.notes.filter(n => n.topicId !== current.id);
+        appState.activeTopicId = appState.topics[0].id;
+        const nextNote = appState.notes.find(n => n.topicId === appState.activeTopicId) || appState.notes[0];
+        appState.activeNoteId = nextNote ? nextNote.id : null;
+        saveState();
+        renderApp();
+        showToast('Topic deleted');
+      });
+    });
+
+    // Notes controls
+    addNoteBtn.addEventListener('click', () => {
+      const newNoteId = 'note-' + Date.now();
+      const currentTopic = appState.topics.find(t => t.id === appState.activeTopicId);
+      const newNote = {
+        id: newNoteId,
+        topicId: appState.activeTopicId,
+        title: 'Untitled Note',
+        tags: currentTopic ? currentTopic.name.toLowerCase().replace(/\s+/g, '-') : '',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        blocks: [
+          {
+            id: 'b-' + Date.now(),
+            type: 'text',
+            content: ''
+          }
+        ]
+      };
+      appState.notes.unshift(newNote);
+      appState.activeNoteId = newNoteId;
+      saveState();
+      renderApp();
+      noteTitleInput.focus();
+      noteTitleInput.select();
+    });
+
+    deleteNoteBtn.addEventListener('click', () => {
+      const note = getActiveNote();
+      if (!note) return;
+      promptDeleteNote(note.id, note.title);
+    });
+
+    // Export / Backup Menu Handlers
+    exportMenuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      exportDropdown.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', () => {
+      exportDropdown.classList.add('hidden');
+    });
+
+    exportJsonBtn.addEventListener('click', () => {
+      const blob = new Blob([JSON.stringify(appState, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Kintas_Studio_Backup_${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Workspace backup exported');
+    });
+
+    exportMarkdownBtn.addEventListener('click', () => {
+      const note = getActiveNote();
+      if (!note) return;
+      let md = `# ${note.title || 'Untitled Note'}\n`;
+      md += `*Tags: ${note.tags || 'none'} | Updated: ${note.updatedAt || 'N/A'}*\n\n---\n\n`;
+
+      (note.blocks || []).forEach(b => {
+        if (b.type === 'text') {
+          md += `${b.content || ''}\n\n`;
+        } else if (b.type === 'checklist') {
+          md += `### Checklist\n`;
+          (b.items || []).forEach(it => {
+            md += `- [${it.done ? 'x' : ' '}] ${it.text}\n`;
+          });
+          md += `\n`;
+        } else if (b.type === 'callout') {
+          md += `> **${(b.variant || 'tip').toUpperCase()}:** ${b.content || ''}\n\n`;
+        } else if (b.type === 'code') {
+          md += `\`\`\`${b.language || 'text'}\n${b.code || ''}\n\`\`\`\n`;
+          if (b.explanation) md += `*Logic Notes:* ${b.explanation}\n\n`;
+        } else if (b.type === 'image') {
+          md += `![Screenshot](${b.dataUrl || ''})\n`;
+          if (b.caption) md += `*Notes:* ${b.caption}\n\n`;
+        } else if (b.type === 'draw') {
+          if (b.canvasData) md += `![Canvas Sketch](${b.canvasData})\n`;
+          if (b.explanation) md += `*Sketch Breakdown:* ${b.explanation}\n\n`;
+        } else if (b.type === 'video') {
+          md += `**Video:** ${b.videoUrl || ''}\n`;
+          if (b.explanation) md += `*Lecture Notes:* ${b.explanation}\n\n`;
+        } else if (b.type === 'document') {
+          md += `**Document:** ${b.fileName || 'Attachment'} (${b.fileSize || ''})\n`;
+          if (b.explanation) md += `*Analysis:* ${b.explanation}\n\n`;
+        }
+      });
+
+      const blob = new Blob([md], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${(note.title || 'note').replace(/[^a-z0-9]/gi, '_').toLowerCase()}.md`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Markdown exported');
+    });
+
+    exportHtmlBtn.addEventListener('click', () => {
+      const note = getActiveNote();
+      if (!note) return;
+
+      let html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${escapeHtml(note.title)}</title>
+      <style>body{font-family:sans-serif;max-width:800px;margin:2rem auto;padding:1rem;color:#333;line-height:1.6}pre{background:#1e1e1e;color:#f8f8f2;padding:1rem;border-radius:8px;overflow-x:auto}img{max-width:100%;border-radius:8px}</style>
+      </head><body><h1>${escapeHtml(note.title)}</h1><p><em>Tags: ${escapeHtml(note.tags || '')}</em></p><hr/>`;
+
+      (note.blocks || []).forEach(b => {
+        if (b.type === 'text') {
+          html += `<p>${escapeHtml(b.content || '').replace(/\n/g, '<br/>')}</p>`;
+        } else if (b.type === 'checklist') {
+          html += `<ul>${(b.items || []).map(it => `<li><input type="checkbox" ${it.done ? 'checked' : ''} disabled> ${escapeHtml(it.text)}</li>`).join('')}</ul>`;
+        } else if (b.type === 'callout') {
+          html += `<div style="background:#fce7f3;border-left:4px solid #f472b6;padding:10px;margin:10px 0;"><strong>${escapeHtml((b.variant || 'tip').toUpperCase())}:</strong> ${escapeHtml(b.content || '')}</div>`;
+        } else if (b.type === 'code') {
+          html += `<pre><code>${escapeHtml(b.code || '')}</code></pre>`;
+          if (b.explanation) html += `<p><small><strong>Logic:</strong> ${escapeHtml(b.explanation)}</small></p>`;
+        } else if (b.type === 'image') {
+          html += `<p><img src="${b.dataUrl || ''}" alt="Screenshot"></p>`;
+          if (b.caption) html += `<p><small>${escapeHtml(b.caption)}</small></p>`;
+        } else if (b.type === 'draw') {
+          if (b.canvasData) html += `<p><img src="${b.canvasData}" alt="Sketch"></p>`;
+          if (b.explanation) html += `<p><small>${escapeHtml(b.explanation)}</small></p>`;
+        }
+      });
+      html += `</body></html>`;
+
+      const blob = new Blob([html], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${(note.title || 'note').replace(/[^a-z0-9]/gi, '_').toLowerCase()}.html`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('HTML exported');
+    });
+
+    importJsonInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        try {
+          const parsed = JSON.parse(evt.target.result);
+          if (parsed && Array.isArray(parsed.topics) && Array.isArray(parsed.notes)) {
+            appState = parsed;
+            saveState();
+            renderApp();
+            showToast('Backup restored successfully!');
+          } else {
+            showToast('Invalid backup file structure', 'ph-warning');
+          }
+        } catch (err) {
+          showToast('Failed to parse JSON backup', 'ph-warning');
+        }
+        importJsonInput.value = '';
+      };
+      reader.readAsText(file);
+    });
+
+    function markNoteEdited() {
+      const note = getActiveNote();
+      if (!note) return;
+      
+      const now = new Date();
+      note.updatedAt = now.toISOString();
+
+      noteTimestampLabel.textContent = `Updated: ${now.toLocaleDateString([], { month: 'short', day: 'numeric' })} at ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}`;
+      updateNoteStatistics(note);
+      saveStatus.innerHTML = '<span class="w-2 h-2 rounded-full bg-pink-500 animate-pulse"></span> Saving...';
+      saveStatus.className = 'ml-4 text-xs font-bold px-2.5 py-1 rounded-full bg-pink-100 text-pink-700 dark:bg-pink-950/80 dark:text-pink-300 border border-pink-300 flex items-center gap-1.5';
+
+      clearTimeout(window.autoSaveTimeout);
+      window.autoSaveTimeout = setTimeout(() => {
+        saveState();
+      }, 700);
+    }
+
+    function showSavedIndicator() {
+      saveStatus.innerHTML = '<span class="w-2 h-2 rounded-full bg-pink-400 shadow-[0_0_8px_#f472b6]"></span> Saved';
+      saveStatus.className = 'ml-4 text-xs font-semibold px-2.5 py-1 rounded-full bg-pink-100/90 text-pink-700 dark:bg-pastel-darkCard dark:text-pink-300 border border-pink-200 dark:border-pink-800/60 flex items-center gap-1.5';
+    }
+
+    function showToast(message, iconClass = 'ph-check-circle') {
+      toastMsg.textContent = message;
+      toastIcon.className = `ph-bold ${iconClass} text-base ${iconClass.includes('warning') ? 'text-amber-400' : 'text-pink-400'}`;
+      toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+      
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+      }, 2500);
+    }
+
+    function renderApp() {
+      renderTopics();
+      renderNotesList();
+      renderNoteEditor();
+    }
+
+    // App Startup
+    renderApp();
+  </script>
+</body>
+</html>
